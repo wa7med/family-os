@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./scripts:/app/scripts
+      - ./drizzle.config.ts:/app/drizzle.config.ts
+      - db-data:/app/data
+      - uploads-data:/app/uploads
+    environment:
+      - DATABASE_URL=/app/data/family-os.db
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  uploads-data:
