@@ -44,7 +44,7 @@ export default function DashboardPage() {
     return (
       <div className="p-4 space-y-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-32 bg-muted animate-pulse rounded-lg" />
+          <div key={i} className="h-32 bg-[#F0F1F3] animate-pulse rounded-[22px]" />
         ))}
       </div>
     );
@@ -62,8 +62,8 @@ export default function DashboardPage() {
     <div className="px-4 pt-6 pb-24">
       {/* Greeting Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-foreground mb-1">Hello there</h1>
-        <p className="text-base text-secondary">Welcome to your Family Life OS!</p>
+        <h1 className="text-3xl font-bold text-[#0B1830] mb-1">Hello there</h1>
+        <p className="text-base text-[#0B1830]/60">Welcome to your Family Life OS!</p>
       </div>
 
       <div className="space-y-4">
@@ -77,79 +77,74 @@ export default function DashboardPage() {
       />
 
       {/* Finance Snapshot */}
-      <Card className="border-border bg-card rounded-[22px]">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <DollarSign className="h-5 w-5 text-[#F4B400]" />
-            Finance Snapshot
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-3 bg-muted rounded-[18px]">
-              <p className="text-lg font-bold text-foreground">
-                {data?.finance?.monthlyExpenses?.toFixed(2) || "0.00"}
-              </p>
-              <p className="text-[10px] text-muted-foreground">Monthly Spend</p>
-            </div>
-            <div className="text-center p-3 bg-accent/10 rounded-[18px]">
-              <p className="text-lg font-bold text-accent">
-                {data?.finance?.taxDeductibleTotal?.toFixed(2) || "0.00"}
-              </p>
-              <p className="text-[10px] text-muted-foreground">Tax Deductible</p>
-            </div>
-            <div className="text-center p-3 bg-muted rounded-[18px]">
-              <p className="text-lg font-bold text-foreground">
-                {data?.finance?.monthlyContractCosts?.toFixed(2) || "0.00"}
-              </p>
-              <p className="text-[10px] text-muted-foreground">Contracts/mo</p>
-            </div>
+      <div className="mt-2">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-1 h-5 bg-[#3B82F6] rounded-full" />
+          <h2 className="text-lg font-bold text-[#0B1830]">Finance Snapshot</h2>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
+            <DollarSign className="h-5 w-5 text-[#F4B400] mx-auto mb-1" />
+            <p className="text-lg font-bold text-[#0B1830]">
+              {data?.finance?.monthlyExpenses?.toFixed(2) || "0.00"}
+            </p>
+            <p className="text-[10px] text-[#0B1830]/50">Monthly Spend</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
+            <TrendingUp className="h-5 w-5 text-[#21D07A] mx-auto mb-1" />
+            <p className="text-lg font-bold text-[#21D07A]">
+              {data?.finance?.taxDeductibleTotal?.toFixed(2) || "0.00"}
+            </p>
+            <p className="text-[10px] text-[#0B1830]/50">Tax Deductible</p>
+          </div>
+          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
+            <FileText className="h-5 w-5 text-[#3B82F6] mx-auto mb-1" />
+            <p className="text-lg font-bold text-[#0B1830]">
+              {data?.finance?.monthlyContractCosts?.toFixed(2) || "0.00"}
+            </p>
+            <p className="text-[10px] text-[#0B1830]/50">Contracts/mo</p>
+          </div>
+        </div>
+      </div>
 
       {/* Daily Focus */}
-      <Card className="border-border bg-card rounded-[22px]">
-        <CardHeader className="pb-3">
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <CheckSquare className="h-5 w-5 text-accent" />
-            Daily Focus
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {data?.dailyTasks && data.dailyTasks.length > 0 ? (
-            <div className="space-y-2">
-              {data.dailyTasks.map((entry) => (
-                <div
-                  key={entry.item.id}
-                  className="flex items-center gap-3 py-3 border-b border-border last:border-0"
-                >
-                  <div className="flex items-center gap-2 flex-1 min-w-0">
-                    {entry.owner && (
-                      <FamilyBadge
-                        name={entry.owner.name}
-                        color={entry.owner.color}
-                        avatar={entry.owner.avatar}
-                      />
-                    )}
-                    <span className="text-sm text-foreground truncate">{entry.item.title}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    {entry.task.isHabit && (
-                      <Badge className="text-[10px] flex-shrink-0 bg-muted text-secondary">
-                        {entry.task.frequency}
-                      </Badge>
-                    )}
-                    <DailyFocusActions itemId={entry.item.id} title={entry.item.title} onAction={refresh} />
-                  </div>
+      <div className="bg-white border border-[#E5E7EB] rounded-[22px] p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <CheckSquare className="h-5 w-5 text-[#21D07A]" />
+          <h2 className="text-lg font-bold text-[#0B1830]">Daily Focus</h2>
+        </div>
+        {data?.dailyTasks && data.dailyTasks.length > 0 ? (
+          <div className="space-y-1">
+            {data.dailyTasks.map((entry) => (
+              <div
+                key={entry.item.id}
+                className="flex items-center gap-3 py-3 border-b border-[#E5E7EB] last:border-0"
+              >
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  {entry.owner && (
+                    <FamilyBadge
+                      name={entry.owner.name}
+                      color={entry.owner.color}
+                      avatar={entry.owner.avatar}
+                    />
+                  )}
+                  <span className="text-sm text-[#0B1830] truncate">{entry.item.title}</span>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground text-center py-4">No tasks for today</p>
-          )}
-        </CardContent>
-      </Card>
+                <div className="flex items-center gap-1">
+                  {entry.task.isHabit && (
+                    <Badge className="text-[10px] flex-shrink-0 bg-[#F0F1F3] text-[#0B1830]/60">
+                      {entry.task.frequency}
+                    </Badge>
+                  )}
+                  <DailyFocusActions itemId={entry.item.id} title={entry.item.title} onAction={refresh} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-[#0B1830]/50 text-center py-4">No tasks for today</p>
+        )}
+      </div>
       </div>
     </div>
   );

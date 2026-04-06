@@ -38,9 +38,8 @@ export function TabbedTasksCard({
 
   return (
     <div>
-      {/* Main Content Card */}
-      <Card className="border-border bg-card rounded-[22px] overflow-hidden">
-        <CardContent className="p-5 min-h-[220px]">
+      {/* Main Content Card — dark navy */}
+      <div className="bg-[#0B1830] rounded-[22px] overflow-hidden p-5 min-h-[220px]">
         {/* Urgent Today */}
         {activeTab === "urgent" && (
           <div className="space-y-2">
@@ -48,7 +47,7 @@ export function TabbedTasksCard({
               urgentToday.map((entry) => (
                 <div
                   key={entry.item.id}
-                  className="flex items-center justify-between py-3 border-b border-border last:border-0"
+                  className="flex items-center justify-between py-3 border-b border-white/10 last:border-0"
                 >
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     {entry.owner && (
@@ -58,11 +57,11 @@ export function TabbedTasksCard({
                         avatar={entry.owner.avatar}
                       />
                     )}
-                    <span className="text-sm font-medium text-foreground truncate">{entry.item.title}</span>
+                    <span className="text-sm font-medium text-white truncate">{entry.item.title}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     {entry.item.dueTime && (
-                      <span className="text-xs text-muted-foreground">{entry.item.dueTime}</span>
+                      <span className="text-xs text-white/50">{entry.item.dueTime}</span>
                     )}
                     <PriorityBadge priority={entry.item.priority} />
                     <ItemActions
@@ -75,7 +74,7 @@ export function TabbedTasksCard({
                 </div>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-8">Nothing urgent today</p>
+              <p className="text-sm text-white/50 text-center py-8">Nothing urgent today</p>
             )}
           </div>
         )}
@@ -87,7 +86,7 @@ export function TabbedTasksCard({
               thisWeek.slice(0, 5).map((entry) => (
                 <div
                   key={entry.item.id}
-                  className="flex items-center justify-between py-3 border-b border-border last:border-0"
+                  className="flex items-center justify-between py-3 border-b border-white/10 last:border-0"
                 >
                   <div className="flex items-center gap-2 min-w-0 flex-1">
                     {entry.owner && (
@@ -98,12 +97,12 @@ export function TabbedTasksCard({
                       />
                     )}
                     <div className="truncate">
-                      <span className="text-sm font-medium text-foreground">{entry.item.title}</span>
-                      <span className="text-xs text-muted-foreground ml-2">{entry.item.type}</span>
+                      <span className="text-sm font-medium text-white">{entry.item.title}</span>
+                      <span className="text-xs text-white/50 ml-2">{entry.item.type}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    <span className="text-xs text-white/50 whitespace-nowrap">
                       {entry.item.dueDate && format(new Date(entry.item.dueDate), "EEE dd")}
                       {entry.item.dueTime && ` ${entry.item.dueTime}`}
                     </span>
@@ -112,7 +111,7 @@ export function TabbedTasksCard({
                 </div>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-8">Nothing scheduled this week</p>
+              <p className="text-sm text-white/50 text-center py-8">Nothing scheduled this week</p>
             )}
           </div>
         )}
@@ -125,7 +124,7 @@ export function TabbedTasksCard({
                 <Link
                   href="/contracts"
                   key={entry.item.id}
-                  className="flex items-center justify-between py-3 border-b border-border last:border-0 hover:bg-muted/50 -mx-2 px-2 rounded-xl transition-colors"
+                  className="flex items-center justify-between py-3 border-b border-white/10 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     {entry.owner && (
@@ -136,7 +135,7 @@ export function TabbedTasksCard({
                       />
                     )}
                     <div>
-                      <span className="text-sm font-medium text-foreground">{entry.item.title}</span>
+                      <span className="text-sm font-medium text-white">{entry.item.title}</span>
                       <p className="text-xs text-[#F4B400]">
                         Cancel before{" "}
                         {entry.contract.cancelBefore &&
@@ -150,7 +149,7 @@ export function TabbedTasksCard({
                 </Link>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-8">No contract alerts</p>
+              <p className="text-sm text-white/50 text-center py-8">No contract alerts</p>
             )}
           </div>
         )}
@@ -163,7 +162,7 @@ export function TabbedTasksCard({
                 <Link
                   href={`/tasks/${entry.item.id}`}
                   key={entry.item.id}
-                  className="block py-3 border-b border-border last:border-0 hover:bg-muted/50 -mx-2 px-2 rounded-xl transition-colors"
+                  className="block py-3 border-b border-white/10 last:border-0 hover:bg-white/5 -mx-2 px-2 rounded-xl transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -174,12 +173,12 @@ export function TabbedTasksCard({
                           avatar={entry.owner.avatar}
                         />
                       )}
-                      <span className="text-sm font-medium text-foreground truncate">{entry.item.title}</span>
+                      <span className="text-sm font-medium text-white truncate">{entry.item.title}</span>
                     </div>
                     <PriorityBadge priority={entry.item.priority} />
                   </div>
                   {entry.latestComment && (
-                    <p className="text-xs text-muted-foreground mt-1 ml-8 italic truncate">
+                    <p className="text-xs text-white/40 mt-1 ml-8 italic truncate">
                       &ldquo;{entry.latestComment.content}&rdquo;
                       <span className="ml-1 text-[10px]">
                         {entry.latestComment.createdAt &&
@@ -190,37 +189,36 @@ export function TabbedTasksCard({
                 </Link>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground text-center py-8">No tracking tasks</p>
+              <p className="text-sm text-white/50 text-center py-8">No tracking tasks</p>
             )}
           </div>
         )}
-        </CardContent>
-      </Card>
+      </div>
 
-      {/* Tab Icons Below Card */}
-      <div className="flex items-center justify-around mt-4 px-2">
+      {/* Tab Icons Below Card — light background */}
+      <div className="flex items-center justify-around mt-5 px-1">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className="flex flex-col items-center justify-center gap-1.5 min-w-[60px]"
+            className="flex flex-col items-center justify-center gap-1.5 min-w-[65px]"
           >
             <div
-              className={`w-14 h-14 rounded-[18px] flex items-center justify-center transition-all duration-200 ${
+              className={`w-[56px] h-[56px] rounded-[16px] flex items-center justify-center transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-card border-2 border-accent shadow-lg"
-                  : "bg-muted/50 border-2 border-transparent"
+                  ? "bg-[#0B1830] shadow-md"
+                  : "bg-[#F0F1F3]"
               }`}
             >
               <tab.icon
                 className={`h-6 w-6 ${
-                  activeTab === tab.id ? "text-foreground" : "text-muted-foreground"
+                  activeTab === tab.id ? "text-white" : "text-[#0B1830]/60"
                 }`}
               />
             </div>
             <span
               className={`text-[11px] font-medium ${
-                activeTab === tab.id ? "text-foreground" : "text-muted-foreground"
+                activeTab === tab.id ? "text-[#0B1830]" : "text-[#0B1830]/50"
               }`}
             >
               {tab.label}
