@@ -59,7 +59,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="px-4 pt-6 pb-24 space-y-4">
       {/* Tabbed Tasks: Urgent Today, This Week, Contract Alerts, In Progress */}
       <TabbedTasksCard
         urgentToday={data?.urgentToday || []}
@@ -70,29 +70,29 @@ export default function DashboardPage() {
       />
 
       {/* Finance Snapshot */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5 text-amber-500" />
+      <Card className="border-border bg-card rounded-[22px]">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-foreground">
+            <DollarSign className="h-5 w-5 text-[#F4B400]" />
             Finance Snapshot
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-3">
-            <div className="text-center p-2 bg-muted rounded-lg">
-              <p className="text-lg font-bold">
+            <div className="text-center p-3 bg-muted rounded-[18px]">
+              <p className="text-lg font-bold text-foreground">
                 {data?.finance?.monthlyExpenses?.toFixed(2) || "0.00"}
               </p>
               <p className="text-[10px] text-muted-foreground">Monthly Spend</p>
             </div>
-            <div className="text-center p-2 bg-green-50 dark:bg-green-950 rounded-lg">
-              <p className="text-lg font-bold text-green-600">
+            <div className="text-center p-3 bg-accent/10 rounded-[18px]">
+              <p className="text-lg font-bold text-accent">
                 {data?.finance?.taxDeductibleTotal?.toFixed(2) || "0.00"}
               </p>
               <p className="text-[10px] text-muted-foreground">Tax Deductible</p>
             </div>
-            <div className="text-center p-2 bg-muted rounded-lg">
-              <p className="text-lg font-bold">
+            <div className="text-center p-3 bg-muted rounded-[18px]">
+              <p className="text-lg font-bold text-foreground">
                 {data?.finance?.monthlyContractCosts?.toFixed(2) || "0.00"}
               </p>
               <p className="text-[10px] text-muted-foreground">Contracts/mo</p>
@@ -102,10 +102,10 @@ export default function DashboardPage() {
       </Card>
 
       {/* Daily Focus */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2">
-            <CheckSquare className="h-5 w-5 text-green-500" />
+      <Card className="border-border bg-card rounded-[22px]">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-foreground">
+            <CheckSquare className="h-5 w-5 text-accent" />
             Daily Focus
           </CardTitle>
         </CardHeader>
@@ -115,7 +115,7 @@ export default function DashboardPage() {
               {data.dailyTasks.map((entry) => (
                 <div
                   key={entry.item.id}
-                  className="flex items-center gap-3 py-1.5 border-b last:border-0"
+                  className="flex items-center gap-3 py-3 border-b border-border last:border-0"
                 >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     {entry.owner && (
@@ -125,11 +125,11 @@ export default function DashboardPage() {
                         avatar={entry.owner.avatar}
                       />
                     )}
-                    <span className="text-sm truncate">{entry.item.title}</span>
+                    <span className="text-sm text-foreground truncate">{entry.item.title}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     {entry.task.isHabit && (
-                      <Badge variant="secondary" className="text-[10px] flex-shrink-0">
+                      <Badge className="text-[10px] flex-shrink-0 bg-muted text-secondary">
                         {entry.task.frequency}
                       </Badge>
                     )}
@@ -139,7 +139,7 @@ export default function DashboardPage() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No tasks for today</p>
+            <p className="text-sm text-muted-foreground text-center py-4">No tasks for today</p>
           )}
         </CardContent>
       </Card>

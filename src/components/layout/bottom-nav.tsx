@@ -21,42 +21,46 @@ export function BottomNav({ onFabClick }: BottomNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 border-t">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
-        {navItems.map((item) => {
-          if (item.isFab) {
-            return (
-              <button
-                key="fab"
-                onClick={onFabClick}
-                className="flex items-center justify-center -mt-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors"
-              >
-                <Plus className="h-7 w-7" />
-              </button>
-            );
-          }
+    <>
+      <nav className="fixed bottom-0 left-0 right-0 z-20 max-w-lg mx-auto px-4 pb-4">
+        <div className="bg-card border border-border rounded-[22px] shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-around py-2 px-2">
+            {navItems.map((item) => {
+              if (item.isFab) {
+                return (
+                  <button
+                    key="fab"
+                    onClick={onFabClick}
+                    className="flex items-center justify-center -mt-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-colors"
+                  >
+                    <Plus className="h-7 w-7" />
+                  </button>
+                );
+              }
 
-          const isActive = item.href === "/"
-            ? pathname === "/"
-            : pathname.startsWith(item.href);
+              const isActive = item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-xs transition-colors",
-                isActive
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-xs transition-colors",
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <item.icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }
