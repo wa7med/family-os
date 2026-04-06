@@ -45,13 +45,14 @@ export function TabbedTasksCard({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 py-2.5 px-3 rounded-[16px] transition-all duration-200 ${
+              className={`flex-1 flex flex-col items-center justify-center py-2 px-2 rounded-[16px] transition-all duration-200 ${
                 activeTab === tab.id
                   ? "bg-accent text-accent-foreground shadow-lg shadow-accent/20"
                   : "bg-transparent text-muted-foreground hover:text-secondary"
               }`}
             >
-              <span className="text-xs font-semibold whitespace-nowrap">
+              <tab.icon className="h-4 w-4 mb-0.5" />
+              <span className="text-[10px] font-semibold whitespace-nowrap">
                 {tab.label}
               </span>
             </button>
