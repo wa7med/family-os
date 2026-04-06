@@ -59,7 +59,14 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="px-4 pt-6 pb-24 space-y-4">
+    <div className="px-4 pt-6 pb-24">
+      {/* Greeting Header */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-foreground mb-1">Hello there</h1>
+        <p className="text-base text-secondary">Welcome to your Family Life OS!</p>
+      </div>
+
+      <div className="space-y-4">
       {/* Tabbed Tasks: Urgent Today, This Week, Contract Alerts, In Progress */}
       <TabbedTasksCard
         urgentToday={data?.urgentToday || []}
@@ -143,6 +150,7 @@ export default function DashboardPage() {
           )}
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
