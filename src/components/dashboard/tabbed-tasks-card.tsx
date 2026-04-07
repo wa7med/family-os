@@ -39,7 +39,7 @@ export function TabbedTasksCard({
   return (
     <div>
       {/* Main Content Card — dark navy */}
-      <div className="bg-[#0B1830] rounded-[22px] overflow-hidden p-5 min-h-[220px]">
+      <div className="bg-[#032d42] rounded-[22px] overflow-hidden p-5 min-h-[220px]">
         {/* Urgent Today */}
         {activeTab === "urgent" && (
           <div className="space-y-2">
@@ -206,19 +206,19 @@ export function TabbedTasksCard({
             <div
               className={`w-[56px] h-[56px] rounded-[16px] flex items-center justify-center transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-[#0B1830] shadow-md"
+                  ? "bg-[#032d42] shadow-md"
                   : "bg-[#F0F1F3]"
               }`}
             >
               <tab.icon
                 className={`h-6 w-6 ${
-                  activeTab === tab.id ? "text-white" : "text-[#0B1830]/60"
+                  activeTab === tab.id ? "text-white" : "text-[#032d42]/60"
                 }`}
               />
             </div>
             <span
               className={`text-[11px] font-medium ${
-                activeTab === tab.id ? "text-[#0B1830]" : "text-[#0B1830]/50"
+                activeTab === tab.id ? "text-[#032d42]" : "text-[#032d42]/50"
               }`}
             >
               {tab.label}

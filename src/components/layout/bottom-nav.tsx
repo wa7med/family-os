@@ -31,7 +31,7 @@ export function BottomNav({ onFabClick }: BottomNavProps) {
                   <button
                     key="fab"
                     onClick={onFabClick}
-                    className="flex items-center justify-center -mt-6 h-14 w-14 rounded-full bg-[#0B1830] text-white shadow-lg hover:bg-[#0B1830]/90 transition-colors"
+                    className="flex items-center justify-center -mt-6 h-14 w-14 rounded-full bg-[#032d42] text-white shadow-lg hover:bg-[#032d42]/90 transition-colors"
                   >
                     <Plus className="h-7 w-7" />
                   </button>
@@ -49,8 +49,8 @@ export function BottomNav({ onFabClick }: BottomNavProps) {
                   className={cn(
                     "flex flex-col items-center justify-center gap-0.5 flex-1 py-1 text-xs transition-colors",
                     isActive
-                      ? "text-[#0B1830]"
-                      : "text-[#0B1830]/40 hover:text-[#0B1830]/70"
+                      ? "text-[#032d42]"
+                      : "text-[#032d42]/40 hover:text-[#032d42]/70"
                   )}
                 >
                   <item.icon className={cn("h-5 w-5", isActive && "stroke-[2.5]")} />
