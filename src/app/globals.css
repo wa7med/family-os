@@ -2,50 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 215 50% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 215 50% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 50% 12%;
-    --primary: 215 50% 12%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 215 50% 12%;
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 153 68% 47%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 215 50% 12%;
-    --radius: 1.375rem;
+    /* Premium Sage / Cream palette inspired by the reference design */
+    --background: 40 20% 97%;          /* warm off-white #FAF7F2 */
+    --foreground: 165 35% 15%;         /* deep forest green #1E3A2F */
+    --card: 40 25% 98%;                /* cream white #FDFAF6 */
+    --card-foreground: 165 35% 15%;
+    --popover: 40 25% 98%;
+    --popover-foreground: 165 35% 15%;
+    --primary: 155 28% 38%;            /* sage green #4A7B65 */
+    --primary-foreground: 40 25% 98%;
+    --secondary: 40 18% 93%;           /* warm light cream #EDE8E0 */
+    --secondary-foreground: 165 35% 15%;
+    --muted: 40 18% 93%;
+    --muted-foreground: 165 15% 45%;   /* muted teal-gray */
+    --accent: 155 28% 38%;             /* sage green accent */
+    --accent-foreground: 40 25% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 40 25% 98%;
+    --border: 40 15% 88%;              /* warm subtle border */
+    --input: 40 15% 88%;
+    --ring: 155 28% 38%;
+    --radius: 1.25rem;
+
+    /* Custom palette tokens */
+    --sage-50: 150 25% 96%;
+    --sage-100: 150 22% 90%;
+    --sage-200: 152 20% 80%;
+    --sage-500: 155 28% 38%;
+    --sage-600: 155 32% 30%;
+    --sage-700: 158 35% 22%;
+    --sage-800: 160 38% 16%;
+    --sage-900: 165 40% 11%;
+    --cream-50: 40 30% 98%;
+    --cream-100: 40 25% 95%;
+    --cream-200: 40 20% 90%;
+    --teal-dark: 175 45% 12%;          /* deep teal for hero sections */
+    --teal-mid: 170 35% 18%;
   }
 
   .dark {
-    --background: 215 50% 7%;
-    --foreground: 210 40% 98%;
-    --card: 215 47% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 215 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 153 68% 47%;
-    --accent-foreground: 0 0% 100%;
+    --background: 175 45% 6%;
+    --foreground: 40 20% 95%;
+    --card: 170 38% 10%;
+    --card-foreground: 40 20% 95%;
+    --popover: 170 38% 10%;
+    --popover-foreground: 40 20% 95%;
+    --primary: 152 30% 50%;
+    --primary-foreground: 175 45% 6%;
+    --secondary: 170 30% 15%;
+    --secondary-foreground: 40 20% 95%;
+    --muted: 170 30% 15%;
+    --muted-foreground: 155 15% 55%;
+    --accent: 152 30% 50%;
+    --accent-foreground: 175 45% 6%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --destructive-foreground: 40 20% 95%;
+    --border: 170 25% 16%;
+    --input: 170 25% 16%;
+    --ring: 152 30% 50%;
   }
 }
 
@@ -55,6 +73,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   }
 }
 
@@ -67,4 +86,91 @@ html, body {
 /* Safe area for mobile bottom nav */
 .pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom), 5rem);
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--sage-200));
+  border-radius: 999px;
+}
+
+/* Smooth category filter scroll */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out both;
+}
+
+/* Staggered children animation */
+.stagger-children > * {
+  animation: fadeInUp 0.4s ease-out both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.03s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.06s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.09s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.12s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.18s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.21s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.24s; }
+
+/* Premium skeleton */
+.skeleton-premium {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--cream-100)) 25%,
+    hsl(var(--cream-200)) 37%,
+    hsl(var(--cream-100)) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Toggle switch styling override for sage green */
+.toggle-sage {
+  background: hsl(var(--sage-500));
 }

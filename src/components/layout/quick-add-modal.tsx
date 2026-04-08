@@ -10,35 +10,35 @@ const quickAddOptions = [
     type: "appointment",
     label: "Appointment",
     icon: Calendar,
-    color: "bg-blue-500",
+    color: "bg-sage-500",
     href: "/appointments/new",
   },
   {
     type: "task",
     label: "Task",
     icon: CheckSquare,
-    color: "bg-green-500",
+    color: "bg-sage-600",
     href: "/tasks/new",
   },
   {
     type: "expense",
     label: "Expense",
     icon: DollarSign,
-    color: "bg-amber-500",
+    color: "bg-[#C4965A]",
     href: "/money/new",
   },
   {
     type: "contract",
     label: "Contract",
     icon: FileText,
-    color: "bg-purple-500",
+    color: "bg-sage-700",
     href: "/contracts/new",
   },
   {
     type: "member",
     label: "Member",
     icon: Users,
-    color: "bg-teal-500",
+    color: "bg-sage-800",
     href: "/family/new",
   },
 ];
@@ -68,7 +68,7 @@ export function QuickAddModal({ open, onOpenChange }: QuickAddModalProps) {
               }}
               className={cn(
                 "flex flex-col items-center gap-2 p-4 rounded-xl border-2 border-transparent",
-                "hover:border-primary/20 hover:bg-accent transition-all",
+                "hover:border-sage-200 hover:bg-sage-50 transition-all",
                 "active:scale-95"
               )}
             >

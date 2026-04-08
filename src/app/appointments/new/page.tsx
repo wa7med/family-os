@@ -43,20 +43,20 @@ export default function NewAppointmentPage() {
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-xl font-bold">New Appointment</h2>
+        <h2 className="text-xl font-bold text-sage-900">New Appointment</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Title *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Title *</label>
           <Input name="title" placeholder="e.g. Dentist appointment" required />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Family Member *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Family Member *</label>
           <Select
             name="ownerId"
             required
@@ -68,18 +68,18 @@ export default function NewAppointmentPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Date *</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Date *</label>
             <Input name="dueDate" type="date" required />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Time</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Time</label>
             <Input name="dueTime" type="time" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Category</label>
             <Select
               name="category"
               options={APPOINTMENT_CATEGORIES.map((c) => ({
@@ -89,7 +89,7 @@ export default function NewAppointmentPage() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Priority</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Priority</label>
             <Select
               name="priority"
               options={PRIORITY_LEVELS.map((p) => ({
@@ -101,16 +101,16 @@ export default function NewAppointmentPage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Location</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Location</label>
           <Input name="location" placeholder="e.g. Dr. Schmidt, Berlin" />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Notes</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Notes</label>
           <Textarea name="description" placeholder="Additional notes..." />
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Creating..." : "Create Appointment"}
         </Button>
       </form>

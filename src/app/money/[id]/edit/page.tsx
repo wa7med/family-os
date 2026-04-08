@@ -34,7 +34,7 @@ export default function EditExpensePage() {
     return (
       <div className="p-4 space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-12 bg-muted animate-pulse rounded-lg" />
+          <div key={i} className="h-12 skeleton-premium rounded-[18px]" />
         ))}
       </div>
     );
@@ -43,7 +43,7 @@ export default function EditExpensePage() {
   if (!data) {
     return (
       <div className="p-4">
-        <p className="text-muted-foreground">Expense not found</p>
+        <p className="text-sage-700/50">Expense not found</p>
       </div>
     );
   }
@@ -90,15 +90,15 @@ export default function EditExpensePage() {
     <div className="p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={() => router.back()}>
-            <ArrowLeft className="h-5 w-5" />
+          <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+            <ArrowLeft className="h-5 w-5 text-sage-700" />
           </Button>
-          <h2 className="text-xl font-bold">Edit Expense</h2>
+          <h2 className="text-xl font-bold text-sage-900">Edit Expense</h2>
         </div>
         <Button
           variant="ghost"
           size="icon"
-          className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+          className="text-red-500 hover:text-red-600 hover:bg-red-50"
           onClick={() => setShowDeleteConfirm(true)}
         >
           <Trash2 className="h-5 w-5" />
@@ -107,13 +107,13 @@ export default function EditExpensePage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Title *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Title *</label>
           <Input name="title" defaultValue={data.item.title} required />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Amount *</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Amount *</label>
             <Input
               name="amount"
               type="number"
@@ -123,7 +123,7 @@ export default function EditExpensePage() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Currency</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Currency</label>
             <Select
               name="currency"
               defaultValue={data.expense.currency || "EUR"}
@@ -137,7 +137,7 @@ export default function EditExpensePage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Family Member *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Family Member *</label>
           <Select
             name="ownerId"
             required
@@ -150,11 +150,11 @@ export default function EditExpensePage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Date</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Date</label>
             <Input name="dueDate" type="date" defaultValue={data.item.dueDate || ""} />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Category</label>
             <Select
               name="category"
               defaultValue={data.expense.category || ""}
@@ -167,7 +167,7 @@ export default function EditExpensePage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Payment Account</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Payment Account</label>
           <Input
             name="paymentAccount"
             defaultValue={data.expense.paymentAccount || ""}
@@ -177,16 +177,16 @@ export default function EditExpensePage() {
 
         {/* Tax Deductible Toggle */}
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">Tax Deductible?</label>
+          <label className="text-sm font-medium text-sage-800">Tax Deductible?</label>
           <button
             type="button"
             onClick={() => setTaxDeductible(!taxDeductible)}
             className={`relative w-10 h-6 rounded-full transition-colors ${
-              taxDeductible ? "bg-green-500" : "bg-muted"
+              taxDeductible ? "bg-sage-500" : "bg-sage-200"
             }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
                 taxDeductible ? "translate-x-4" : ""
               }`}
             />
@@ -195,7 +195,7 @@ export default function EditExpensePage() {
 
         {taxDeductible && (
           <div>
-            <label className="text-sm font-medium mb-1 block">Tax Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Tax Category</label>
             <Select
               name="taxCategory"
               defaultValue={data.expense.taxCategory || ""}
@@ -207,7 +207,7 @@ export default function EditExpensePage() {
           </div>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Saving..." : "Save Changes"}
         </Button>
       </form>
@@ -220,15 +220,15 @@ export default function EditExpensePage() {
         >
           <div className="fixed inset-0 bg-black/50" />
           <div
-            className="relative z-10 w-full max-w-sm mx-4 mb-4 sm:mb-0 bg-background rounded-2xl shadow-xl overflow-hidden"
+            className="relative z-10 w-full max-w-sm mx-4 mb-4 sm:mb-0 bg-card rounded-2xl shadow-elevated overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 text-center">
-              <div className="mx-auto w-12 h-12 rounded-full bg-red-100 dark:bg-red-950 flex items-center justify-center mb-3">
+              <div className="mx-auto w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-3">
                 <Trash2 className="h-6 w-6 text-red-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-1">Delete Expense</h3>
-              <p className="text-sm text-muted-foreground mb-4">
+              <h3 className="text-lg font-semibold mb-1 text-sage-900">Delete Expense</h3>
+              <p className="text-sm text-sage-700/50 mb-4">
                 Are you sure you want to delete &quot;{data.item.title}&quot;? This action cannot be undone.
               </p>
               <div className="flex gap-3">

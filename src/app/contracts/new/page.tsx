@@ -44,25 +44,25 @@ export default function NewContractPage() {
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-xl font-bold">New Contract</h2>
+        <h2 className="text-xl font-bold text-sage-900">New Contract</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Title *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Title *</label>
           <Input name="title" placeholder="e.g. Vodafone Mobile" required />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Provider *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Provider *</label>
           <Input name="provider" placeholder="e.g. Vodafone" required />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Family Member *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Family Member *</label>
           <Select
             name="ownerId"
             required
@@ -74,11 +74,11 @@ export default function NewContractPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Monthly Cost</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Monthly Cost</label>
             <Input name="monthlyCost" type="number" step="0.01" placeholder="0.00" />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Category</label>
             <Select
               name="category"
               options={CONTRACT_CATEGORIES.map((c) => ({
@@ -91,45 +91,45 @@ export default function NewContractPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Start Date</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Start Date</label>
             <Input name="startDate" type="date" />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">End Date</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">End Date</label>
             <Input name="endDate" type="date" />
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Notice Period (days)</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Notice Period (days)</label>
             <Input name="noticePeriodDays" type="number" placeholder="e.g. 90" />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Deduction Day</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Deduction Day</label>
             <Input name="accountDeductionDay" type="number" min="1" max="31" placeholder="e.g. 1" />
           </div>
         </div>
 
         {/* Auto Renew Toggle */}
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">Auto-renew?</label>
+          <label className="text-sm font-medium text-sage-800">Auto-renew?</label>
           <button
             type="button"
             onClick={() => setAutoRenew(!autoRenew)}
             className={`relative w-10 h-6 rounded-full transition-colors ${
-              autoRenew ? "bg-primary" : "bg-muted"
+              autoRenew ? "bg-sage-500" : "bg-sage-200"
             }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
                 autoRenew ? "translate-x-4" : ""
               }`}
             />
           </button>
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Creating..." : "Add Contract"}
         </Button>
       </form>

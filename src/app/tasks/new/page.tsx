@@ -45,20 +45,20 @@ export default function NewTaskPage() {
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-xl font-bold">New Task</h2>
+        <h2 className="text-xl font-bold text-sage-900">New Task</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Title *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Title *</label>
           <Input name="title" placeholder="e.g. Learn Kubernetes" required />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Family Member *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Family Member *</label>
           <Select
             name="ownerId"
             required
@@ -70,7 +70,7 @@ export default function NewTaskPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Category</label>
             <Select
               name="category"
               options={TASK_CATEGORIES.map((c) => ({
@@ -80,7 +80,7 @@ export default function NewTaskPage() {
             />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Priority</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Priority</label>
             <Select
               name="priority"
               options={PRIORITY_LEVELS.map((p) => ({
@@ -93,16 +93,16 @@ export default function NewTaskPage() {
 
         {/* Habit Toggle */}
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">Is this a habit?</label>
+          <label className="text-sm font-medium text-sage-800">Is this a habit?</label>
           <button
             type="button"
             onClick={() => setIsHabit(!isHabit)}
             className={`relative w-10 h-6 rounded-full transition-colors ${
-              isHabit ? "bg-primary" : "bg-muted"
+              isHabit ? "bg-sage-500" : "bg-sage-200"
             }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
                 isHabit ? "translate-x-4" : ""
               }`}
             />
@@ -111,7 +111,7 @@ export default function NewTaskPage() {
 
         {isHabit && (
           <div>
-            <label className="text-sm font-medium mb-1 block">Frequency</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Frequency</label>
             <Select
               name="frequency"
               options={[
@@ -126,27 +126,27 @@ export default function NewTaskPage() {
         {isHabit ? (
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="text-sm font-medium mb-1 block">Start Date</label>
+              <label className="text-sm font-medium mb-1 block text-sage-800">Start Date</label>
               <Input name="startDate" type="date" />
             </div>
             <div>
-              <label className="text-sm font-medium mb-1 block">End Date (optional)</label>
+              <label className="text-sm font-medium mb-1 block text-sage-800">End Date (optional)</label>
               <Input name="endDate" type="date" />
             </div>
           </div>
         ) : (
           <div>
-            <label className="text-sm font-medium mb-1 block">Due Date</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Due Date</label>
             <Input name="dueDate" type="date" />
           </div>
         )}
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Notes</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Notes</label>
           <Textarea name="description" placeholder="Additional notes..." />
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Creating..." : "Create Task"}
         </Button>
       </form>

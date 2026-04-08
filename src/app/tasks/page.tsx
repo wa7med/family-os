@@ -22,7 +22,7 @@ export default function TasksPage() {
     return (
       <div className="p-4 space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-16 bg-muted animate-pulse rounded-lg" />
+          <div key={i} className="h-16 skeleton-premium rounded-[18px]" />
         ))}
       </div>
     );
@@ -45,9 +45,9 @@ export default function TasksPage() {
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold">Tasks & Goals</h2>
+        <h2 className="text-xl font-bold text-sage-900">Tasks & Goals</h2>
         <Link href="/tasks/new">
-          <Button size="sm" className="gap-1">
+          <Button size="sm" className="gap-1 bg-sage-600 hover:bg-sage-700 text-white">
             <Plus className="h-4 w-4" />
             Add
           </Button>
@@ -60,10 +60,10 @@ export default function TasksPage() {
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+            className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
               filter === cat
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-accent"
+                ? "bg-sage-700 text-white shadow-soft"
+                : "bg-sage-100 text-sage-700/60 hover:bg-sage-200"
             }`}
           >
             {cat === "all" ? "All" : cat.replace("_", " ")}
@@ -75,25 +75,25 @@ export default function TasksPage() {
       {Object.keys(grouped).length > 0 ? (
         Object.entries(grouped).map(([category, tasks]) => (
           <div key={category}>
-            <h3 className="text-sm font-semibold text-muted-foreground mb-2 capitalize">
+            <h3 className="text-sm font-semibold text-sage-700/50 mb-2 capitalize">
               {category.replace("_", " ")}
             </h3>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 stagger-children">
               {tasks.map((entry) => (
-                <Card key={entry.item.id}>
+                <Card key={entry.item.id} className="shadow-card">
                   <CardContent className="p-3 flex items-center gap-3">
                     <button className="flex-shrink-0">
                       {entry.item.status === "completed" ? (
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="h-5 w-5 text-sage-500" />
                       ) : (
-                        <Circle className="h-5 w-5 text-muted-foreground/40" />
+                        <Circle className="h-5 w-5 text-sage-200" />
                       )}
                     </button>
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm ${
                         entry.item.status === "completed"
-                          ? "line-through text-muted-foreground"
-                          : "font-medium"
+                          ? "line-through text-sage-700/40"
+                          : "font-medium text-sage-900"
                       }`}>
                         {entry.item.title}
                       </p>
@@ -107,7 +107,7 @@ export default function TasksPage() {
                         />
                       )}
                       {entry.task.isHabit && (
-                        <Badge variant="secondary" className="text-[10px]">
+                        <Badge className="text-[10px] bg-sage-100 text-sage-600 border-sage-200">
                           {entry.task.frequency}
                         </Badge>
                       )}

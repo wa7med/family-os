@@ -19,7 +19,7 @@ export default function AppointmentsPage() {
     return (
       <div className="p-4 space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-20 bg-muted animate-pulse rounded-lg" />
+          <div key={i} className="h-20 skeleton-premium rounded-[18px]" />
         ))}
       </div>
     );
@@ -30,9 +30,9 @@ export default function AppointmentsPage() {
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-bold">Appointments</h2>
+        <h2 className="text-xl font-bold text-sage-900">Appointments</h2>
         <Link href="/appointments/new">
-          <Button size="sm" className="gap-1">
+          <Button size="sm" className="gap-1 bg-sage-600 hover:bg-sage-700 text-white">
             <Plus className="h-4 w-4" />
             Add
           </Button>
@@ -40,9 +40,9 @@ export default function AppointmentsPage() {
       </div>
 
       {appointments.length > 0 ? (
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-children">
           {appointments.map((entry) => (
-            <Card key={entry.item.id}>
+            <Card key={entry.item.id} className="shadow-card border-border">
               <CardContent className="p-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
@@ -54,8 +54,8 @@ export default function AppointmentsPage() {
                       />
                     )}
                     <div>
-                      <p className="text-sm font-medium">{entry.item.title}</p>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                      <p className="text-sm font-medium text-sage-900">{entry.item.title}</p>
+                      <div className="flex items-center gap-2 mt-1 text-xs text-sage-700/50">
                         {entry.item.dueDate && (
                           <span className="flex items-center gap-0.5">
                             <Clock className="h-3 w-3" />
@@ -73,7 +73,7 @@ export default function AppointmentsPage() {
                     </div>
                   </div>
                   {entry.appointment.category && (
-                    <Badge variant="outline" className="text-[10px]">
+                    <Badge variant="outline" className="text-[10px] border-sage-200 text-sage-600">
                       {entry.appointment.category}
                     </Badge>
                   )}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import dynamic from "next/dynamic";
 
@@ -7,7 +7,7 @@ const AppShell = dynamic(() => import("@/components/layout/app-shell").then(m =>
   ssr: false,
 });
 
-const inter = Inter({ subsets: ["latin"] });
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Family Life OS",
@@ -24,7 +24,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#3B82F6",
+  themeColor: "#1E3A2F",
 };
 
 export default function RootLayout({
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={dmSans.className} suppressHydrationWarning>
         <AppShell>{children}</AppShell>
       </body>
     </html>

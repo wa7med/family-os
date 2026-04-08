@@ -43,25 +43,25 @@ export default function NewExpensePage() {
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-xl font-bold">New Expense</h2>
+        <h2 className="text-xl font-bold text-sage-900">New Expense</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Title *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Title *</label>
           <Input name="title" placeholder="e.g. Laptop purchase" required />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Amount *</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Amount *</label>
             <Input name="amount" type="number" step="0.01" placeholder="0.00" required />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Currency</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Currency</label>
             <Select
               name="currency"
               options={[
@@ -74,7 +74,7 @@ export default function NewExpensePage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Family Member *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Family Member *</label>
           <Select
             name="ownerId"
             required
@@ -86,11 +86,11 @@ export default function NewExpensePage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm font-medium mb-1 block">Date</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Date</label>
             <Input name="dueDate" type="date" defaultValue={new Date().toISOString().split("T")[0]} />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block">Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Category</label>
             <Select
               name="category"
               options={EXPENSE_CATEGORIES.map((c) => ({
@@ -102,22 +102,22 @@ export default function NewExpensePage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Payment Account</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Payment Account</label>
           <Input name="paymentAccount" placeholder="e.g. Main Account, Credit Card" />
         </div>
 
         {/* Tax Deductible Toggle */}
         <div className="flex items-center gap-3">
-          <label className="text-sm font-medium">Tax Deductible?</label>
+          <label className="text-sm font-medium text-sage-800">Tax Deductible?</label>
           <button
             type="button"
             onClick={() => setTaxDeductible(!taxDeductible)}
             className={`relative w-10 h-6 rounded-full transition-colors ${
-              taxDeductible ? "bg-green-500" : "bg-muted"
+              taxDeductible ? "bg-sage-500" : "bg-sage-200"
             }`}
           >
             <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
                 taxDeductible ? "translate-x-4" : ""
               }`}
             />
@@ -126,7 +126,7 @@ export default function NewExpensePage() {
 
         {taxDeductible && (
           <div>
-            <label className="text-sm font-medium mb-1 block">Tax Category</label>
+            <label className="text-sm font-medium mb-1 block text-sage-800">Tax Category</label>
             <Select
               name="taxCategory"
               options={TAX_CATEGORIES.map((c) => ({
@@ -137,7 +137,7 @@ export default function NewExpensePage() {
           </div>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Creating..." : "Add Expense"}
         </Button>
       </form>

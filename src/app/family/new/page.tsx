@@ -40,20 +40,20 @@ export default function NewMemberPage() {
   return (
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-xl font-bold">Add Family Member</h2>
+        <h2 className="text-xl font-bold text-sage-900">Add Family Member</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="text-sm font-medium mb-1 block">Name *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Name *</label>
           <Input name="name" placeholder="e.g. Sarah" required />
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Role *</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Role *</label>
           <Select
             name="role"
             required
@@ -68,7 +68,7 @@ export default function NewMemberPage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Sex</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Sex</label>
           <Select
             name="sex"
             options={SEX_OPTIONS.map((s) => ({
@@ -79,13 +79,13 @@ export default function NewMemberPage() {
         </div>
 
         <div>
-          <label className="text-sm font-medium mb-1 block">Date of Birth</label>
+          <label className="text-sm font-medium mb-1 block text-sage-800">Date of Birth</label>
           <Input name="dateOfBirth" type="date" />
         </div>
 
         {/* Preview */}
         {selectedRole && (
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-sage-50 border border-sage-200">
             <span
               className="inline-flex items-center justify-center h-12 w-12 rounded-full text-2xl"
               style={{ backgroundColor: (FAMILY_COLORS[selectedRole] || "#6B7280") + "20" }}
@@ -93,7 +93,7 @@ export default function NewMemberPage() {
               {ROLE_AVATARS[selectedRole] || "🧑"}
             </span>
             <div className="text-sm">
-              <p className="font-medium capitalize">{selectedRole}</p>
+              <p className="font-medium capitalize text-sage-900">{selectedRole}</p>
               <span
                 className="inline-block h-3 w-3 rounded-full"
                 style={{ backgroundColor: FAMILY_COLORS[selectedRole] || "#6B7280" }}
@@ -102,7 +102,7 @@ export default function NewMemberPage() {
           </div>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
           {loading ? "Adding..." : "Add Member"}
         </Button>
       </form>

@@ -48,7 +48,7 @@ export default function TaskDetailPage() {
   if (!taskData) {
     return (
       <div className="p-4">
-        <div className="h-32 bg-muted animate-pulse rounded-lg" />
+        <div className="h-32 skeleton-premium rounded-[18px]" />
       </div>
     );
   }
@@ -59,11 +59,11 @@ export default function TaskDetailPage() {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
         <div className="flex-1 min-w-0">
-          <h2 className="text-lg font-bold truncate">{item?.title}</h2>
+          <h2 className="text-lg font-bold truncate text-sage-900">{item?.title}</h2>
           <div className="flex items-center gap-2 mt-0.5">
             {owner && (
               <FamilyBadge
@@ -74,7 +74,7 @@ export default function TaskDetailPage() {
             )}
             <PriorityBadge priority={item?.priority} />
             {task?.category && (
-              <Badge variant="secondary" className="text-[10px]">
+              <Badge className="text-[10px] bg-sage-100 text-sage-600 border-sage-200">
                 {task.category}
               </Badge>
             )}
@@ -82,10 +82,10 @@ export default function TaskDetailPage() {
               variant="outline"
               className={`text-[10px] ${
                 item?.status === "active"
-                  ? "border-green-500 text-green-600"
+                  ? "border-sage-500 text-sage-600"
                   : item?.status === "completed"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-gray-400 text-gray-500"
+                  ? "border-sage-500 text-sage-600"
+                  : "border-sage-200 text-sage-700/50"
               }`}
             >
               {item?.status}
@@ -96,9 +96,9 @@ export default function TaskDetailPage() {
 
       {/* Description */}
       {item?.description && (
-        <Card>
+        <Card className="shadow-card">
           <CardContent className="pt-4">
-            <p className="text-sm text-muted-foreground">{item.description}</p>
+            <p className="text-sm text-sage-700/60">{item.description}</p>
           </CardContent>
         </Card>
       )}
@@ -108,7 +108,7 @@ export default function TaskDetailPage() {
         <div className="flex gap-2">
           <Button
             size="sm"
-            className="flex-1 bg-green-600 hover:bg-green-700"
+            className="flex-1 bg-sage-600 hover:bg-sage-700 text-white"
             onClick={() => handleStatusChange("completed")}
           >
             <CheckCircle className="h-4 w-4 mr-1" />
@@ -117,7 +117,7 @@ export default function TaskDetailPage() {
           <Button
             size="sm"
             variant="outline"
-            className="flex-1 text-destructive border-destructive"
+            className="flex-1 text-destructive border-destructive hover:bg-destructive/5"
             onClick={() => handleStatusChange("cancelled")}
           >
             <XCircle className="h-4 w-4 mr-1" />
@@ -127,10 +127,10 @@ export default function TaskDetailPage() {
       )}
 
       {/* Activity Log */}
-      <Card>
+      <Card className="shadow-card">
         <CardHeader className="pb-2">
-          <CardTitle className="flex items-center gap-2 text-base">
-            <MessageSquare className="h-4 w-4" />
+          <CardTitle className="flex items-center gap-2 text-base text-sage-900">
+            <MessageSquare className="h-4 w-4 text-sage-500" />
             Activity Log
           </CardTitle>
         </CardHeader>
@@ -149,7 +149,7 @@ export default function TaskDetailPage() {
               size="icon"
               onClick={handleAddComment}
               disabled={sending || !newComment.trim()}
-              className="self-end"
+              className="self-end bg-sage-600 hover:bg-sage-700 text-white"
             >
               <Send className="h-4 w-4" />
             </Button>
@@ -161,10 +161,10 @@ export default function TaskDetailPage() {
               {commentsData.map((comment: any) => (
                 <div
                   key={comment.id}
-                  className="border-l-2 border-indigo-300 pl-3 py-1"
+                  className="border-l-2 border-sage-300 pl-3 py-1"
                 >
-                  <p className="text-sm">{comment.content}</p>
-                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                  <p className="text-sm text-sage-900">{comment.content}</p>
+                  <p className="text-[10px] text-sage-700/50 mt-0.5">
                     {comment.createdAt &&
                       format(new Date(comment.createdAt), "dd MMM yyyy, HH:mm")}{" "}
                     ({formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })})
@@ -173,7 +173,7 @@ export default function TaskDetailPage() {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground text-center py-4">
+            <p className="text-sm text-sage-700/50 text-center py-4">
               No activity yet. Add the first update above.
             </p>
           )}

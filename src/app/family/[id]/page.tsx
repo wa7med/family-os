@@ -53,18 +53,18 @@ export default function FamilyMemberPage() {
   };
 
   const typeColors: Record<string, string> = {
-    appointment: "text-blue-500",
-    task: "text-green-500",
-    expense: "text-amber-500",
-    contract: "text-purple-500",
+    appointment: "text-sage-600",
+    task: "text-sage-500",
+    expense: "text-[#C4965A]",
+    contract: "text-sage-700",
   };
 
   return (
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" onClick={() => router.back()}>
-          <ArrowLeft className="h-5 w-5" />
+        <Button variant="ghost" size="icon" onClick={() => router.back()} className="hover:bg-sage-100">
+          <ArrowLeft className="h-5 w-5 text-sage-700" />
         </Button>
         {member && (
           <div className="flex items-center gap-3 flex-1">
@@ -78,7 +78,7 @@ export default function FamilyMemberPage() {
               <h2 className="text-xl font-bold" style={{ color: member.color }}>
                 {member.name}
               </h2>
-              <p className="text-sm text-muted-foreground capitalize">{member.role}</p>
+              <p className="text-sm text-sage-700/50 capitalize">{member.role}</p>
             </div>
             <Button
               variant="ghost"
@@ -99,12 +99,12 @@ export default function FamilyMemberPage() {
         const Icon = typeIcons[type];
 
         return (
-          <Card key={type}>
+          <Card key={type} className="shadow-card">
             <CardHeader className="pb-2">
               <CardTitle className={`flex items-center gap-2 text-base ${typeColors[type]}`}>
                 <Icon className="h-4 w-4" />
                 {type.charAt(0).toUpperCase() + type.slice(1)}s
-                <Badge variant="secondary" className="ml-auto">
+                <Badge className="ml-auto bg-sage-100 text-sage-600 border-sage-200">
                   {typeItems.length}
                 </Badge>
               </CardTitle>
@@ -114,10 +114,10 @@ export default function FamilyMemberPage() {
                 {typeItems.map((entry) => (
                   <div
                     key={entry.item.id}
-                    className="flex items-center justify-between py-1.5 border-b last:border-0"
+                    className="flex items-center justify-between py-1.5 border-b border-border last:border-0"
                   >
-                    <span className="text-sm">{entry.item.title}</span>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-sage-900">{entry.item.title}</span>
+                    <span className="text-xs text-sage-700/50">
                       {entry.item.dueDate || ""}
                     </span>
                   </div>

@@ -38,8 +38,8 @@ export function TabbedTasksCard({
 
   return (
     <div>
-      {/* Main Content Card — dark navy */}
-      <div className="bg-[#032d42] rounded-[22px] overflow-hidden p-5 min-h-[220px]">
+      {/* Main Content Card — medium sage green */}
+      <div className="bg-[#5B8A72] rounded-[22px] overflow-hidden p-5 min-h-[220px] shadow-elevated">
         {/* Urgent Today */}
         {activeTab === "urgent" && (
           <div className="space-y-2">
@@ -136,14 +136,14 @@ export function TabbedTasksCard({
                     )}
                     <div>
                       <span className="text-sm font-medium text-white">{entry.item.title}</span>
-                      <p className="text-xs text-[#F4B400]">
+                      <p className="text-xs text-[#C4965A]">
                         Cancel before{" "}
                         {entry.contract.cancelBefore &&
                           format(new Date(entry.contract.cancelBefore), "dd MMM yyyy")}
                       </p>
                     </div>
                   </div>
-                  <Badge className="bg-[#F4B400]/20 text-[#F4B400] border-[#F4B400]/30">
+                  <Badge className="bg-[#C4965A]/20 text-[#C4965A] border-[#C4965A]/30">
                     {entry.contract.monthlyCost?.toFixed(2)}/mo
                   </Badge>
                 </Link>
@@ -206,19 +206,19 @@ export function TabbedTasksCard({
             <div
               className={`w-[56px] h-[56px] rounded-[16px] flex items-center justify-center transition-all duration-200 ${
                 activeTab === tab.id
-                  ? "bg-[#032d42] shadow-md"
-                  : "bg-[#F0F1F3]"
+                  ? "bg-[#5B8A72] shadow-soft"
+                  : "bg-sage-100"
               }`}
             >
               <tab.icon
                 className={`h-6 w-6 ${
-                  activeTab === tab.id ? "text-white" : "text-[#032d42]/60"
+                  activeTab === tab.id ? "text-white" : "text-sage-700/60"
                 }`}
               />
             </div>
             <span
               className={`text-[11px] font-medium ${
-                activeTab === tab.id ? "text-[#032d42]" : "text-[#032d42]/50"
+                activeTab === tab.id ? "text-sage-900" : "text-sage-700/50"
               }`}
             >
               {tab.label}

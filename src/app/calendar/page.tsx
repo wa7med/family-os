@@ -55,10 +55,10 @@ export default function CalendarPage() {
   const selectedItems = itemsByDate[format(selectedDate, "yyyy-MM-dd")] || [];
 
   const typeColors: Record<string, string> = {
-    appointment: "bg-blue-500",
-    task: "bg-green-500",
-    expense: "bg-amber-500",
-    contract: "bg-purple-500",
+    appointment: "bg-sage-500",
+    task: "bg-sage-600",
+    expense: "bg-[#C4965A]",
+    contract: "bg-sage-800",
   };
 
   return (
@@ -68,26 +68,28 @@ export default function CalendarPage() {
         <Button
           variant="ghost"
           size="icon"
+          className="hover:bg-sage-100"
           onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-5 w-5 text-sage-700" />
         </Button>
-        <h2 className="text-lg font-bold">
+        <h2 className="text-lg font-bold text-sage-900">
           {format(currentMonth, "MMMM yyyy")}
         </h2>
         <Button
           variant="ghost"
           size="icon"
+          className="hover:bg-sage-100"
           onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-5 w-5 text-sage-700" />
         </Button>
       </div>
 
       {/* Day Headers */}
       <div className="grid grid-cols-7 gap-1 text-center">
         {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day) => (
-          <div key={day} className="text-xs font-medium text-muted-foreground py-1">
+          <div key={day} className="text-xs font-medium text-sage-700/50 py-1">
             {day}
           </div>
         ))}
@@ -104,11 +106,11 @@ export default function CalendarPage() {
               key={dateKey}
               onClick={() => setSelectedDate(day)}
               className={`
-                relative p-1 h-12 rounded-lg text-sm transition-colors
-                ${isSelected ? "bg-primary text-primary-foreground" : ""}
-                ${isToday(day) && !isSelected ? "bg-accent font-bold" : ""}
-                ${!isCurrentMonth ? "text-muted-foreground/40" : ""}
-                ${!isSelected ? "hover:bg-accent" : ""}
+                relative p-1 h-12 rounded-lg text-sm transition-all duration-200
+                ${isSelected ? "bg-sage-700 text-white shadow-soft" : ""}
+                ${isToday(day) && !isSelected ? "bg-sage-100 font-bold text-sage-800" : ""}
+                ${!isCurrentMonth ? "text-sage-700/30" : "text-sage-900"}
+                ${!isSelected ? "hover:bg-sage-100" : ""}
               `}
             >
               {format(day, "d")}
@@ -119,8 +121,8 @@ export default function CalendarPage() {
                       key={i}
                       className={`h-1 w-1 rounded-full ${
                         isSelected
-                          ? "bg-primary-foreground"
-                          : typeColors[item.item.type] || "bg-gray-400"
+                          ? "bg-white"
+                          : typeColors[item.item.type] || "bg-sage-200"
                       }`}
                     />
                   ))}
@@ -133,18 +135,18 @@ export default function CalendarPage() {
 
       {/* Selected Day Items */}
       <div>
-        <h3 className="font-semibold mb-2">
+        <h3 className="font-semibold mb-2 text-sage-900">
           {format(selectedDate, "EEEE, dd MMMM")}
         </h3>
         {selectedItems.length > 0 ? (
-          <div className="space-y-2">
+          <div className="space-y-2 stagger-children">
             {selectedItems.map((entry: any) => (
-              <Card key={entry.item.id}>
+              <Card key={entry.item.id} className="shadow-card">
                 <CardContent className="p-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div
                       className={`h-2 w-2 rounded-full ${
-                        typeColors[entry.item.type] || "bg-gray-400"
+                        typeColors[entry.item.type] || "bg-sage-200"
                       }`}
                     />
                     {entry.owner && (
@@ -155,15 +157,15 @@ export default function CalendarPage() {
                       />
                     )}
                     <div>
-                      <p className="text-sm font-medium">{entry.item.title}</p>
+                      <p className="text-sm font-medium text-sage-900">{entry.item.title}</p>
                       {entry.item.dueTime && (
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-sage-700/50">
                           {entry.item.dueTime}
                         </p>
                       )}
                     </div>
                   </div>
-                  <Badge variant="outline" className="text-[10px]">
+                  <Badge variant="outline" className="text-[10px] border-sage-200 text-sage-600">
                     {entry.item.type}
                   </Badge>
                 </CardContent>
@@ -171,7 +173,7 @@ export default function CalendarPage() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">No items for this day</p>
+          <p className="text-sm text-sage-700/50">No items for this day</p>
         )}
       </div>
     </div>

@@ -44,7 +44,7 @@ export default function DashboardPage() {
     return (
       <div className="p-4 space-y-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-32 bg-[#F0F1F3] animate-pulse rounded-[22px]" />
+          <div key={i} className="h-32 skeleton-premium rounded-[22px]" />
         ))}
       </div>
     );
@@ -61,12 +61,12 @@ export default function DashboardPage() {
   return (
     <div className="px-4 pt-6 pb-24">
       {/* Greeting Header */}
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-[#032d42] mb-1">Hello there</h1>
-        <p className="text-base text-[#032d42]/60">Welcome to your Family Life OS!</p>
+      <div className="mb-6 animate-fade-in-up">
+        <h1 className="text-3xl font-bold text-sage-900 mb-1">Hello there</h1>
+        <p className="text-base text-sage-700/60">Welcome to your Family Life OS!</p>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 stagger-children">
       {/* Tabbed Tasks: Urgent Today, This Week, Contract Alerts, In Progress */}
       <TabbedTasksCard
         urgentToday={data?.urgentToday || []}
@@ -79,46 +79,46 @@ export default function DashboardPage() {
       {/* Finance Snapshot */}
       <div className="mt-2">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-1 h-5 bg-[#3B82F6] rounded-full" />
-          <h2 className="text-lg font-bold text-[#032d42]">Finance Snapshot</h2>
+          <div className="w-1 h-5 bg-sage-500 rounded-full" />
+          <h2 className="text-lg font-bold text-sage-900">Finance Snapshot</h2>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
-            <DollarSign className="h-5 w-5 text-[#F4B400] mx-auto mb-1" />
-            <p className="text-lg font-bold text-[#032d42]">
+          <div className="text-center p-4 bg-card border border-border rounded-[18px] shadow-card">
+            <DollarSign className="h-5 w-5 text-[#C4965A] mx-auto mb-1" />
+            <p className="text-lg font-bold text-sage-900">
               {data?.finance?.monthlyExpenses?.toFixed(2) || "0.00"}
             </p>
-            <p className="text-[10px] text-[#032d42]/50">Monthly Spend</p>
+            <p className="text-[10px] text-sage-700/50">Monthly Spend</p>
           </div>
-          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
-            <TrendingUp className="h-5 w-5 text-[#21D07A] mx-auto mb-1" />
-            <p className="text-lg font-bold text-[#21D07A]">
+          <div className="text-center p-4 bg-card border border-border rounded-[18px] shadow-card">
+            <TrendingUp className="h-5 w-5 text-sage-500 mx-auto mb-1" />
+            <p className="text-lg font-bold text-sage-500">
               {data?.finance?.taxDeductibleTotal?.toFixed(2) || "0.00"}
             </p>
-            <p className="text-[10px] text-[#032d42]/50">Tax Deductible</p>
+            <p className="text-[10px] text-sage-700/50">Tax Deductible</p>
           </div>
-          <div className="text-center p-4 bg-white border border-[#E5E7EB] rounded-[18px]">
-            <FileText className="h-5 w-5 text-[#3B82F6] mx-auto mb-1" />
-            <p className="text-lg font-bold text-[#032d42]">
+          <div className="text-center p-4 bg-card border border-border rounded-[18px] shadow-card">
+            <FileText className="h-5 w-5 text-sage-600 mx-auto mb-1" />
+            <p className="text-lg font-bold text-sage-900">
               {data?.finance?.monthlyContractCosts?.toFixed(2) || "0.00"}
             </p>
-            <p className="text-[10px] text-[#032d42]/50">Contracts/mo</p>
+            <p className="text-[10px] text-sage-700/50">Contracts/mo</p>
           </div>
         </div>
       </div>
 
       {/* Daily Focus */}
-      <div className="bg-white border border-[#E5E7EB] rounded-[22px] p-5">
+      <div className="bg-card border border-border rounded-[22px] p-5 shadow-card">
         <div className="flex items-center gap-2 mb-3">
-          <CheckSquare className="h-5 w-5 text-[#21D07A]" />
-          <h2 className="text-lg font-bold text-[#032d42]">Daily Focus</h2>
+          <CheckSquare className="h-5 w-5 text-sage-500" />
+          <h2 className="text-lg font-bold text-sage-900">Daily Focus</h2>
         </div>
         {data?.dailyTasks && data.dailyTasks.length > 0 ? (
           <div className="space-y-1">
             {data.dailyTasks.map((entry) => (
               <div
                 key={entry.item.id}
-                className="flex items-center gap-3 py-3 border-b border-[#E5E7EB] last:border-0"
+                className="flex items-center gap-3 py-3 border-b border-border last:border-0"
               >
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   {entry.owner && (
@@ -128,11 +128,11 @@ export default function DashboardPage() {
                       avatar={entry.owner.avatar}
                     />
                   )}
-                  <span className="text-sm text-[#032d42] truncate">{entry.item.title}</span>
+                  <span className="text-sm text-sage-900 truncate">{entry.item.title}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   {entry.task.isHabit && (
-                    <Badge className="text-[10px] flex-shrink-0 bg-[#F0F1F3] text-[#032d42]/60">
+                    <Badge className="text-[10px] flex-shrink-0 bg-sage-100 text-sage-700/60 border-sage-200">
                       {entry.task.frequency}
                     </Badge>
                   )}
@@ -142,7 +142,7 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-[#032d42]/50 text-center py-4">No tasks for today</p>
+          <p className="text-sm text-sage-700/50 text-center py-4">No tasks for today</p>
         )}
       </div>
       </div>
