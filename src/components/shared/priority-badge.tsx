@@ -12,7 +12,7 @@ export function PriorityBadge({ priority }: PriorityBadgeProps) {
 
   return (
     <Badge
-      className="text-white text-[10px] px-1.5 py-0"
+      className="text-white text-[10px] px-1.5 py-0 border border-transparent font-medium"
       style={{ backgroundColor: color }}
     >
       {priority}

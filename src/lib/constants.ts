@@ -15,28 +15,28 @@ export const SEX_OPTIONS = ["male", "female"] as const;
 export type Sex = (typeof SEX_OPTIONS)[number];
 
 export const ROLE_AVATARS: Record<string, string> = {
-  husband: "👨",
-  wife: "👩",
-  son: "👦",
-  daughter: "👧",
-  relative: "🧑",
-  grandfather: "👴",
-  grandmother: "👵",
-  aunt: "👩",
-  uncle: "👨",
+  husband: "H",
+  wife: "W",
+  son: "S",
+  daughter: "D",
+  relative: "R",
+  grandfather: "G",
+  grandmother: "G",
+  aunt: "A",
+  uncle: "U",
 };
 
 export const FAMILY_COLORS: Record<string, string> = {
-  husband: "#3B82F6",
-  wife: "#EC4899",
-  son: "#F59E0B",
-  daughter: "#A855F7",
-  relative: "#10B981",
-  grandfather: "#6366F1",
-  grandmother: "#F472B6",
-  aunt: "#14B8A6",
-  uncle: "#0EA5E9",
-  shared: "#10B981",
+  husband: "#4A7B65",
+  wife: "#7B9E87",
+  son: "#8BA888",
+  daughter: "#6B917A",
+  relative: "#5B8A72",
+  grandfather: "#3D6B55",
+  grandmother: "#6B917A",
+  aunt: "#7B9E87",
+  uncle: "#4A7B65",
+  shared: "#5B8A72",
 };
 
 export const ITEM_TYPES = ["appointment", "task", "expense", "contract"] as const;
@@ -104,8 +104,8 @@ export const CONTRACT_CATEGORIES = [
 ] as const;
 
 export const PRIORITY_COLORS: Record<string, string> = {
-  low: "#6B7280",
-  medium: "#3B82F6",
-  high: "#F59E0B",
-  urgent: "#EF4444",
+  low: "#8BA888",
+  medium: "#5B8A72",
+  high: "#4A7B65",
+  urgent: "#2F5E47",
 };
