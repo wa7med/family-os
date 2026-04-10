@@ -23,6 +23,7 @@ import Link from "next/link";
 interface DashboardData {
   urgentToday: Array<{ item: any; owner: any; isHabit: boolean }>;
   thisWeek: Array<{ item: any; owner: any }>;
+  thisMonth: Array<{ item: any; owner: any }>;
   contractAlerts: Array<{ item: any; contract: any; owner: any }>;
   finance: {
     monthlyExpenses: number;
@@ -67,10 +68,11 @@ export default function DashboardPage() {
       </div>
 
       <div className="space-y-4 stagger-children">
-      {/* Tabbed Tasks: Urgent Today, This Week, Contract Alerts, In Progress */}
+      {/* Tabbed Tasks: Urgent Today, This Week, This Month, Contract Alerts, In Progress */}
       <TabbedTasksCard
         urgentToday={data?.urgentToday || []}
         thisWeek={data?.thisWeek || []}
+        thisMonth={data?.thisMonth || []}
         contractAlerts={data?.contractAlerts || []}
         inProgress={data?.inProgress || []}
         onRefresh={refresh}

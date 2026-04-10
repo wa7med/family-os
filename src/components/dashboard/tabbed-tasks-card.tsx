@@ -6,23 +6,25 @@ import { Badge } from "@/components/ui/badge";
 import { FamilyBadge } from "@/components/shared/family-badge";
 import { PriorityBadge } from "@/components/shared/priority-badge";
 import { ItemActions } from "@/components/shared/item-actions";
-import { Flame, CalendarDays, FileWarning, ListChecks } from "lucide-react";
+import { Flame, CalendarDays, Calendar, FileWarning, ListChecks } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
 
 interface TabbedTasksCardProps {
   urgentToday: Array<{ item: any; owner: any; isHabit: boolean }>;
   thisWeek: Array<{ item: any; owner: any }>;
+  thisMonth: Array<{ item: any; owner: any }>;
   contractAlerts: Array<{ item: any; contract: any; owner: any }>;
   inProgress: Array<{ item: any; task: any; owner: any; latestComment: any }>;
   onRefresh: () => void;
 }
 
-type TabType = "urgent" | "week" | "contracts" | "progress";
+type TabType = "urgent" | "week" | "month" | "contracts" | "progress";
 
 export function TabbedTasksCard({
   urgentToday,
   thisWeek,
+  thisMonth,
   contractAlerts,
   inProgress,
   onRefresh,
@@ -32,6 +34,7 @@ export function TabbedTasksCard({
   const tabs = [
     { id: "urgent" as TabType, icon: Flame, label: "Urgent", color: "text-red-500" },
     { id: "week" as TabType, icon: CalendarDays, label: "Week", color: "text-blue-500" },
+    { id: "month" as TabType, icon: Calendar, label: "Month", color: "text-green-500" },
     { id: "contracts" as TabType, icon: FileWarning, label: "Alerts", color: "text-amber-500" },
     { id: "progress" as TabType, icon: ListChecks, label: "Progress", color: "text-indigo-500" },
   ];
@@ -112,6 +115,43 @@ export function TabbedTasksCard({
               ))
             ) : (
               <p className="text-sm text-white/50 text-center py-8">Nothing scheduled this week</p>
+            )}
+          </div>
+        )}
+
+        {/* This Month */}
+        {activeTab === "month" && (
+          <div className="space-y-2">
+            {thisMonth.length > 0 ? (
+              thisMonth.slice(0, 5).map((entry) => (
+                <div
+                  key={entry.item.id}
+                  className="flex items-center justify-between py-3 border-b border-white/10 last:border-0"
+                >
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    {entry.owner && (
+                      <FamilyBadge
+                        name={entry.owner.name}
+                        color={entry.owner.color}
+                        avatar={entry.owner.avatar}
+                      />
+                    )}
+                    <div className="truncate">
+                      <span className="text-sm font-medium text-white">{entry.item.title}</span>
+                      <span className="text-xs text-white/50 ml-2">{entry.item.type}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs text-white/50 whitespace-nowrap">
+                      {entry.item.dueDate && format(new Date(entry.item.dueDate), "EEE dd")}
+                      {entry.item.dueTime && ` ${entry.item.dueTime}`}
+                    </span>
+                    <ItemActions itemId={entry.item.id} title={entry.item.title} onAction={onRefresh} />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-white/50 text-center py-8">Nothing scheduled this month</p>
             )}
           </div>
         )}

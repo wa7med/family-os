@@ -69,6 +69,21 @@ export async function GET() {
       )
       .all();
 
+    // This month: items due in the current month (after this week, up to end of month)
+    const monthEnd = format(addDays(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 0), "yyyy-MM-dd");
+    const thisMonth = db
+      .select({ item: items, owner: familyMembers })
+      .from(items)
+      .leftJoin(familyMembers, eq(items.ownerId, familyMembers.id))
+      .where(
+        and(
+          sql`${items.dueDate} > ${weekEnd}`,
+          lte(items.dueDate, monthEnd),
+          eq(items.status, "active")
+        )
+      )
+      .all();
+
     // Contract alerts: contracts with cancel_before approaching
     const contractAlerts = db
       .select({ item: items, contract: contracts, owner: familyMembers })
@@ -148,6 +163,7 @@ export async function GET() {
     return NextResponse.json({
       urgentToday,
       thisWeek,
+      thisMonth,
       contractAlerts,
       finance: {
         monthlyExpenses: monthlyExpenses[0]?.total || 0,
