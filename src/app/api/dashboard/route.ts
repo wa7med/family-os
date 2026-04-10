@@ -70,7 +70,7 @@ export async function GET() {
       .all();
 
     // This month: items due in the current month (after this week, up to end of month)
-    const monthEnd = format(addDays(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 0), "yyyy-MM-dd");
+    const thisMonthEnd = format(addDays(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), 0), "yyyy-MM-dd");
     const thisMonth = db
       .select({ item: items, owner: familyMembers })
       .from(items)
@@ -78,7 +78,7 @@ export async function GET() {
       .where(
         and(
           sql`${items.dueDate} > ${weekEnd}`,
-          lte(items.dueDate, monthEnd),
+          lte(items.dueDate, thisMonthEnd),
           eq(items.status, "active")
         )
       )
