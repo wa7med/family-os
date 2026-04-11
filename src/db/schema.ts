@@ -81,6 +81,7 @@ export const contracts = sqliteTable("contracts", {
   noticePeriodDays: integer("notice_period_days"),
   cancelBefore: text("cancel_before"), // auto-computed: endDate - noticePeriodDays
   autoRenew: integer("auto_renew", { mode: "boolean" }).default(false),
+  cancelledAt: text("cancelled_at"), // when user requested cancellation (stays active until end of billing period)
   category: text("category"), // mobile, internet, electricity, gym, insurance, software, hosting
   filePaths: text("file_paths"), // JSON array of file paths
   accountDeductionDay: integer("account_deduction_day"), // day of month
