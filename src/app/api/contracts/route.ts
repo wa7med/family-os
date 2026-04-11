@@ -86,9 +86,17 @@ export async function POST(request: NextRequest) {
     const now = new Date().toISOString();
     const itemId = uuid();
 
-    const cancelBefore = body.endDate && body.noticePeriodDays
-      ? computeCancelDeadline(body.endDate, body.noticePeriodDays)
-      : null;
+    // Calculate endDate from startDate + duration if endDate is not provided
+    let endDate = body.endDate;
+    if (!endDate && body.startDate && body.minDurationMonths) {
+      endDate = format(addMonths(new Date(body.startDate), parseInt(body.minDurationMonths)), "yyyy-MM-dd");
+    }
+
+    // Only compute cancelBefore if we have both endDate and noticePeriodDays
+    let cancelBefore = null;
+    if (endDate && body.noticePeriodDays) {
+      cancelBefore = computeCancelDeadline(endDate, parseInt(body.noticePeriodDays));
+    }
 
     db.insert(items).values({
       id: itemId,
@@ -96,7 +104,7 @@ export async function POST(request: NextRequest) {
       type: "contract",
       title: body.title,
       description: body.description || null,
-      dueDate: body.endDate || null,
+      dueDate: endDate || null,
       dueTime: null,
       priority: body.priority || "medium",
       status: "active",
@@ -111,18 +119,19 @@ export async function POST(request: NextRequest) {
       provider: body.provider,
       monthlyCost: body.monthlyCost || null,
       startDate: body.startDate || null,
-      endDate: body.endDate || null,
-      minDurationMonths: body.minDurationMonths || null,
-      noticePeriodDays: body.noticePeriodDays || null,
+      endDate: endDate || null,
+      minDurationMonths: body.minDurationMonths ? parseInt(body.minDurationMonths) : null,
+      noticePeriodDays: body.noticePeriodDays ? parseInt(body.noticePeriodDays) : null,
       cancelBefore,
       autoRenew: body.autoRenew || false,
       category: body.category || null,
       filePaths: body.filePaths ? JSON.stringify(body.filePaths) : null,
-      accountDeductionDay: body.accountDeductionDay || null,
+      accountDeductionDay: body.accountDeductionDay ? parseInt(body.accountDeductionDay) : null,
     }).run();
 
     return NextResponse.json({ id: itemId }, { status: 201 });
   } catch (error) {
+    console.error("Create contract error:", error);
     return NextResponse.json({ error: "Failed to create contract" }, { status: 500 });
   }
 }

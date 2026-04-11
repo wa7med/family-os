@@ -6,46 +6,70 @@ import { useFetch, apiPost } from "@/hooks/use-fetch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import { CONTRACT_CATEGORIES, DURATION_OPTIONS } from "@/lib/constants";
-import { addMonths, format } from "date-fns";
+import { addMonths, format, parseISO, subDays } from "date-fns";
 
 export default function NewContractPage() {
   const router = useRouter();
   const { data: members } = useFetch<any[]>("/api/family-members");
   const [loading, setLoading] = useState(false);
   const [autoRenew, setAutoRenew] = useState(false);
-  const [durationMonths, setDurationMonths] = useState("");
-  const [customDuration, setCustomDuration] = useState("");
-  const [useCustomDuration, setUseCustomDuration] = useState(false);
 
-  function calculateEndDate(startDate: string): string | null {
-    if (!startDate) return null;
-    const months = useCustomDuration ? parseInt(customDuration) : parseInt(durationMonths);
-    if (!months) return null;
-    return format(addMonths(new Date(startDate), months), "yyyy-MM-dd");
+  // Form state
+  const [startDate, setStartDate] = useState("");
+  const [durationMonths, setDurationMonths] = useState<number | null>(null);
+  const [noticeType, setNoticeType] = useState<"1m" | "3m" | "anytime" | "custom">("anytime");
+  const [customNoticeDays, setCustomNoticeDays] = useState<number | null>(null);
+
+  // Calculate billing period (end date based on start date + duration)
+  const billingEndDate = startDate && durationMonths
+    ? format(addMonths(parseISO(startDate), durationMonths), "yyyy-MM-dd")
+    : null;
+
+  // Calculate notice period in days
+  function getNoticePeriodDays(): number | null {
+    switch (noticeType) {
+      case "1m": return 30;
+      case "3m": return 90;
+      case "anytime": return 0; // Can cancel anytime, notice takes effect at billing period end
+      case "custom": return customNoticeDays || null;
+      default: return null;
+    }
   }
+
+  // Calculate cancel deadline
+  const cancelDeadline = billingEndDate && noticeType !== "anytime"
+    ? (() => {
+        const days = getNoticePeriodDays();
+        if (days === null || days === 0) return null;
+        return format(subDays(parseISO(billingEndDate), days), "yyyy-MM-dd");
+      })()
+    : null;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const form = new FormData(e.currentTarget);
-    const startDate = form.get("startDate") as string;
-    const endDate = calculateEndDate(startDate);
+
+    const noticeDays = getNoticePeriodDays();
+    // For "anytime" notice type, set notice period to 0 or a very small number
+    // This means cancelBefore = endDate (can cancel anytime up to the end)
+    const noticePeriodDays = noticeType === "anytime" ? 0 : noticeDays;
 
     try {
       await apiPost("/api/contracts", {
         ownerId: form.get("ownerId"),
         title: form.get("title"),
         provider: form.get("provider"),
-        monthlyCost: parseFloat(form.get("monthlyCost") as string) || null,
-        startDate: startDate || null,
-        endDate,
-        minDurationMonths: useCustomDuration ? parseInt(customDuration) : parseInt(durationMonths),
-        noticePeriodDays: parseInt(form.get("noticePeriodDays") as string) || null,
+        monthlyCost: parseFloat(form.get("monthlyCost" as string)) || null,
+        startDate,
+        endDate: billingEndDate,
+        minDurationMonths: durationMonths,
+        noticePeriodDays,
         category: form.get("category"),
         autoRenew,
-        accountDeductionDay: parseInt(form.get("accountDeductionDay") as string) || null,
+        accountDeductionDay: parseInt(form.get("accountDeductionDay" as string)) || null,
       });
       router.push("/contracts");
     } catch (err) {
@@ -103,83 +127,150 @@ export default function NewContractPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-sm font-medium mb-1 block text-sage-800">Start Date</label>
-            <Input name="startDate" type="date" />
+        {/* Billing Period Section */}
+        <div className="bg-sage-50 rounded-xl p-4 space-y-3">
+          <div className="flex items-center gap-2 text-sage-700">
+            <Calendar className="h-4 w-4" />
+            <span className="text-sm font-medium">Billing Period</span>
           </div>
-          <div>
-            <label className="text-sm font-medium mb-1 block text-sage-800">Duration</label>
-            {!useCustomDuration ? (
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-sm font-medium mb-1 block text-sage-800">Start Date</label>
+              <Input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1 block text-sage-800">Duration</label>
               <Select
                 name="duration"
                 options={[
-                  { value: "", label: "Select duration" },
+                  { value: "", label: "Select" },
                   ...DURATION_OPTIONS.map((d) => ({ value: d.value, label: d.label })),
-                  { value: "custom", label: "Custom..." },
                 ]}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  if (e.target.value === "custom") {
-                    setUseCustomDuration(true);
-                    setDurationMonths("");
-                  } else {
-                    setDurationMonths(e.target.value);
-                  }
+                  setDurationMonths(e.target.value ? parseInt(e.target.value) : null);
                 }}
               />
-            ) : (
-              <div className="flex gap-2">
-                <Input
-                  type="number"
-                  min="1"
-                  placeholder="Months"
-                  value={customDuration}
-                  onChange={(e) => setCustomDuration(e.target.value)}
-                  className="flex-1"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setUseCustomDuration(false);
-                    setCustomDuration("");
-                  }}
-                >
-                  ×
-                </Button>
-              </div>
-            )}
+            </div>
           </div>
+
+          {billingEndDate && (
+            <div className="text-sm text-sage-600 bg-white rounded-lg p-3 border border-sage-200">
+              <span className="font-medium">Billing period: </span>
+              {startDate && format(parseISO(startDate), "dd MMM yyyy")} → {format(parseISO(billingEndDate), "dd MMM yyyy")}
+            </div>
+          )}
+        </div>
+
+        {/* Notice Period Section */}
+        <div className="bg-amber-50 rounded-xl p-4 space-y-3">
+          <label className="text-sm font-medium text-amber-800 block">Cancellation Notice</label>
+
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setNoticeType("1m")}
+              className={`p-3 rounded-lg border text-sm font-medium transition-all ${
+                noticeType === "1m"
+                  ? "border-amber-500 bg-white text-amber-700 shadow-sm"
+                  : "border-amber-200 bg-white/50 text-amber-600 hover:bg-white"
+              }`}
+            >
+              1 month
+            </button>
+            <button
+              type="button"
+              onClick={() => setNoticeType("3m")}
+              className={`p-3 rounded-lg border text-sm font-medium transition-all ${
+                noticeType === "3m"
+                  ? "border-amber-500 bg-white text-amber-700 shadow-sm"
+                  : "border-amber-200 bg-white/50 text-amber-600 hover:bg-white"
+              }`}
+            >
+              3 months
+            </button>
+            <button
+              type="button"
+              onClick={() => setNoticeType("anytime")}
+              className={`p-3 rounded-lg border text-sm font-medium transition-all ${
+                noticeType === "anytime"
+                  ? "border-amber-500 bg-white text-amber-700 shadow-sm"
+                  : "border-amber-200 bg-white/50 text-amber-600 hover:bg-white"
+              }`}
+            >
+              Any time
+            </button>
+            <button
+              type="button"
+              onClick={() => setNoticeType("custom")}
+              className={`p-3 rounded-lg border text-sm font-medium transition-all ${
+                noticeType === "custom"
+                  ? "border-amber-500 bg-white text-amber-700 shadow-sm"
+                  : "border-amber-200 bg-white/50 text-amber-600 hover:bg-white"
+              }`}
+            >
+              Custom
+            </button>
+          </div>
+
+          {noticeType === "custom" && (
+            <div className="mt-2">
+              <Input
+                type="number"
+                min="1"
+                placeholder="Days notice period"
+                value={customNoticeDays || ""}
+                onChange={(e) => setCustomNoticeDays(e.target.value ? parseInt(e.target.value) : null)}
+              />
+            </div>
+          )}
+
+          {noticeType === "anytime" && (
+            <p className="text-xs text-amber-600 mt-1">
+              Cancellation takes effect at the end of the billing period
+            </p>
+          )}
+
+          {noticeType === "1m" && billingEndDate && (
+            <p className="text-xs text-amber-600 mt-1">
+              Cancel by {format(subDays(parseISO(billingEndDate), 30), "dd MMM yyyy")} to cancel at period end
+            </p>
+          )}
+
+          {noticeType === "3m" && billingEndDate && (
+            <p className="text-xs text-amber-600 mt-1">
+              Cancel by {format(subDays(parseISO(billingEndDate), 90), "dd MMM yyyy")} to cancel at period end
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-sm font-medium mb-1 block text-sage-800">Notice Period (days)</label>
-            <Input name="noticePeriodDays" type="number" placeholder="e.g. 90" />
-          </div>
           <div>
             <label className="text-sm font-medium mb-1 block text-sage-800">Deduction Day</label>
             <Input name="accountDeductionDay" type="number" min="1" max="31" placeholder="e.g. 1" />
           </div>
-        </div>
-
-        {/* Auto Renew Toggle */}
-        <div className="flex items-center gap-3">
-          <label className="text-sm font-medium text-sage-800">Auto-renew?</label>
-          <button
-            type="button"
-            onClick={() => setAutoRenew(!autoRenew)}
-            className={`relative w-10 h-6 rounded-full transition-colors ${
-              autoRenew ? "bg-sage-500" : "bg-sage-200"
-            }`}
-          >
-            <span
-              className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
-                autoRenew ? "translate-x-4" : ""
-              }`}
-            />
-          </button>
+          <div className="flex items-center justify-center">
+            <div className="flex items-center gap-3 pt-5">
+              <label className="text-sm font-medium text-sage-800">Auto-renew?</label>
+              <button
+                type="button"
+                onClick={() => setAutoRenew(!autoRenew)}
+                className={`relative w-10 h-6 rounded-full transition-colors ${
+                  autoRenew ? "bg-sage-500" : "bg-sage-200"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
+                    autoRenew ? "translate-x-4" : ""
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
         </div>
 
         <Button type="submit" className="w-full bg-sage-600 hover:bg-sage-700 text-white" disabled={loading}>
