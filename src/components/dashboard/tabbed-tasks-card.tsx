@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FamilyBadge } from "@/components/shared/family-badge";
@@ -30,6 +30,7 @@ export function TabbedTasksCard({
   onRefresh,
 }: TabbedTasksCardProps) {
   const [activeTab, setActiveTab] = useState<TabType>("urgent");
+  const touchStartX = useRef<number | null>(null);
 
   const tabs = [
     { id: "urgent" as TabType, icon: Flame, label: "Urgent", color: "text-red-500" },
@@ -39,10 +40,46 @@ export function TabbedTasksCard({
     { id: "progress" as TabType, icon: ListChecks, label: "Progress", color: "text-indigo-500" },
   ];
 
+  const currentIndex = tabs.findIndex((t) => t.id === activeTab);
+
+  function goToTab(index: number) {
+    if (index >= 0 && index < tabs.length) {
+      setActiveTab(tabs[index].id);
+    }
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    const threshold = 50;
+
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        // Swiped left → next tab
+        goToTab(currentIndex + 1);
+      } else {
+        // Swiped right → previous tab
+        goToTab(currentIndex - 1);
+      }
+    }
+
+    touchStartX.current = null;
+  }
+
   return (
     <div>
       {/* Main Content Card — medium sage green */}
-      <div className="bg-[#5B8A72] rounded-[22px] overflow-hidden p-5 min-h-[220px] shadow-elevated">
+      <div
+        className="bg-[#5B8A72] rounded-[22px] overflow-hidden p-5 min-h-[220px] shadow-elevated select-none"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Urgent Today */}
         {activeTab === "urgent" && (
           <div className="space-y-2">
