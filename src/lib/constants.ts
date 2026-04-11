@@ -108,6 +108,18 @@ export const CONTRACT_CATEGORIES = [
   "other",
 ] as const;
 
+export const DURATION_OPTIONS = [
+  { value: "1", label: "1 month" },
+  { value: "3", label: "3 months" },
+  { value: "6", label: "6 months" },
+  { value: "12", label: "1 year" },
+  { value: "24", label: "2 years" },
+  { value: "36", label: "3 years" },
+  { value: "48", label: "4 years" },
+  { value: "60", label: "5 years" },
+  { value: "72", label: "6 years" },
+] as const;
+
 export const PRIORITY_COLORS: Record<string, string> = {
   low: "#8BA888",
   medium: "#5B8A72",

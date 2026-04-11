@@ -7,18 +7,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { ArrowLeft } from "lucide-react";
-import { CONTRACT_CATEGORIES } from "@/lib/constants";
+import { CONTRACT_CATEGORIES, DURATION_OPTIONS } from "@/lib/constants";
+import { addMonths, format } from "date-fns";
 
 export default function NewContractPage() {
   const router = useRouter();
   const { data: members } = useFetch<any[]>("/api/family-members");
   const [loading, setLoading] = useState(false);
   const [autoRenew, setAutoRenew] = useState(false);
+  const [durationMonths, setDurationMonths] = useState("");
+  const [customDuration, setCustomDuration] = useState("");
+  const [useCustomDuration, setUseCustomDuration] = useState(false);
+
+  function calculateEndDate(startDate: string): string | null {
+    if (!startDate) return null;
+    const months = useCustomDuration ? parseInt(customDuration) : parseInt(durationMonths);
+    if (!months) return null;
+    return format(addMonths(new Date(startDate), months), "yyyy-MM-dd");
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const form = new FormData(e.currentTarget);
+    const startDate = form.get("startDate") as string;
+    const endDate = calculateEndDate(startDate);
 
     try {
       await apiPost("/api/contracts", {
@@ -26,8 +39,9 @@ export default function NewContractPage() {
         title: form.get("title"),
         provider: form.get("provider"),
         monthlyCost: parseFloat(form.get("monthlyCost") as string) || null,
-        startDate: form.get("startDate") || null,
-        endDate: form.get("endDate") || null,
+        startDate: startDate || null,
+        endDate,
+        minDurationMonths: useCustomDuration ? parseInt(customDuration) : parseInt(durationMonths),
         noticePeriodDays: parseInt(form.get("noticePeriodDays") as string) || null,
         category: form.get("category"),
         autoRenew,
@@ -95,8 +109,47 @@ export default function NewContractPage() {
             <Input name="startDate" type="date" />
           </div>
           <div>
-            <label className="text-sm font-medium mb-1 block text-sage-800">End Date</label>
-            <Input name="endDate" type="date" />
+            <label className="text-sm font-medium mb-1 block text-sage-800">Duration</label>
+            {!useCustomDuration ? (
+              <Select
+                name="duration"
+                options={[
+                  { value: "", label: "Select duration" },
+                  ...DURATION_OPTIONS.map((d) => ({ value: d.value, label: d.label })),
+                  { value: "custom", label: "Custom..." },
+                ]}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  if (e.target.value === "custom") {
+                    setUseCustomDuration(true);
+                    setDurationMonths("");
+                  } else {
+                    setDurationMonths(e.target.value);
+                  }
+                }}
+              />
+            ) : (
+              <div className="flex gap-2">
+                <Input
+                  type="number"
+                  min="1"
+                  placeholder="Months"
+                  value={customDuration}
+                  onChange={(e) => setCustomDuration(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    setUseCustomDuration(false);
+                    setCustomDuration("");
+                  }}
+                >
+                  ×
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 
