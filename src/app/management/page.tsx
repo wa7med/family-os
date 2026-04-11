@@ -9,7 +9,6 @@ import {
   RefreshCw,
   CreditCard,
   Users,
-  Settings,
 } from "lucide-react";
 
 const managementItems = [
@@ -56,12 +55,6 @@ const secondaryItems = [
     description: "Manage family members",
     href: "/family",
     icon: Users,
-  },
-  {
-    title: "Settings",
-    description: "App settings",
-    href: "/settings",
-    icon: Settings,
   },
 ];
 
