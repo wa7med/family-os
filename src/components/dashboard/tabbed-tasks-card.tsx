@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { FamilyBadge } from "@/components/shared/family-badge";
 import { PriorityBadge } from "@/components/shared/priority-badge";
 import { ItemActions } from "@/components/shared/item-actions";
-import { Flame, CalendarDays, Calendar, FileWarning, LoaderCircle } from "lucide-react";
+import { Flame, CalendarDays, Calendar, FileWarning, RefreshCw } from "lucide-react";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -37,7 +37,7 @@ export function TabbedTasksCard({
     { id: "week" as TabType, icon: CalendarDays, label: "Week", color: "text-blue-500" },
     { id: "month" as TabType, icon: Calendar, label: "Month", color: "text-green-500" },
     { id: "contracts" as TabType, icon: FileWarning, label: "Alerts", color: "text-amber-500" },
-    { id: "progress" as TabType, icon: LoaderCircle, label: "Progress", color: "text-indigo-500" },
+    { id: "progress" as TabType, icon: RefreshCw, label: "Progress", color: "text-indigo-500" },
   ];
 
   const currentIndex = tabs.findIndex((t) => t.id === activeTab);
