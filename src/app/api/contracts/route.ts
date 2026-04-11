@@ -83,20 +83,39 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log("Received body:", JSON.stringify(body, null, 2));
+
     const now = new Date().toISOString();
     const itemId = uuid();
 
+    // Validate required fields
+    if (!body.ownerId) {
+      return NextResponse.json({ error: "Owner is required" }, { status: 400 });
+    }
+    if (!body.title) {
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
+    }
+    if (!body.provider) {
+      return NextResponse.json({ error: "Provider is required" }, { status: 400 });
+    }
+
     // Calculate endDate from startDate + duration if endDate is not provided
-    let endDate = body.endDate;
+    let endDate = body.endDate || null;
     if (!endDate && body.startDate && body.minDurationMonths) {
-      endDate = format(addMonths(new Date(body.startDate), parseInt(body.minDurationMonths)), "yyyy-MM-dd");
+      const months = parseInt(body.minDurationMonths);
+      if (!isNaN(months) && months > 0) {
+        endDate = format(addMonths(new Date(body.startDate), months), "yyyy-MM-dd");
+      }
     }
 
     // Only compute cancelBefore if we have both endDate and noticePeriodDays
     let cancelBefore = null;
-    if (endDate && body.noticePeriodDays) {
-      cancelBefore = computeCancelDeadline(endDate, parseInt(body.noticePeriodDays));
+    const noticeDays = body.noticePeriodDays ? parseInt(body.noticePeriodDays) : null;
+    if (endDate && noticeDays !== null && noticeDays > 0) {
+      cancelBefore = computeCancelDeadline(endDate, noticeDays);
     }
+
+    console.log("Calculated values:", { endDate, cancelBefore, noticeDays });
 
     db.insert(items).values({
       id: itemId,
@@ -104,7 +123,7 @@ export async function POST(request: NextRequest) {
       type: "contract",
       title: body.title,
       description: body.description || null,
-      dueDate: endDate || null,
+      dueDate: endDate,
       dueTime: null,
       priority: body.priority || "medium",
       status: "active",
@@ -117,11 +136,11 @@ export async function POST(request: NextRequest) {
       id: uuid(),
       itemId,
       provider: body.provider,
-      monthlyCost: body.monthlyCost || null,
+      monthlyCost: body.monthlyCost ? parseFloat(body.monthlyCost) : null,
       startDate: body.startDate || null,
-      endDate: endDate || null,
+      endDate,
       minDurationMonths: body.minDurationMonths ? parseInt(body.minDurationMonths) : null,
-      noticePeriodDays: body.noticePeriodDays ? parseInt(body.noticePeriodDays) : null,
+      noticePeriodDays: noticeDays,
       cancelBefore,
       autoRenew: body.autoRenew || false,
       category: body.category || null,
@@ -132,7 +151,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ id: itemId }, { status: 201 });
   } catch (error) {
     console.error("Create contract error:", error);
-    return NextResponse.json({ error: "Failed to create contract" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to create contract", details: String(error) }, { status: 500 });
   }
 }
 
