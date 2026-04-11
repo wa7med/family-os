@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar, DollarSign, Users, Plus } from "lucide-react";
+import { Home, Calendar, DollarSign, LayoutDashboard, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -10,7 +10,7 @@ const navItems = [
   { href: "/calendar", icon: Calendar, label: "Calendar" },
   { href: "#fab", icon: Plus, label: "Add", isFab: true },
   { href: "/money", icon: DollarSign, label: "Money" },
-  { href: "/family", icon: Users, label: "Family" },
+  { href: "/management", icon: LayoutDashboard, label: "Manage" },
 ];
 
 interface BottomNavProps {
