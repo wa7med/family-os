@@ -47,14 +47,12 @@ const managementItems = [
     icon: CreditCard,
     color: "bg-green-500",
   },
-];
-
-const secondaryItems = [
   {
     title: "Family",
     description: "Manage family members",
     href: "/family",
     icon: Users,
+    color: "bg-purple-500",
   },
 ];
 
@@ -64,7 +62,7 @@ export default function ManagementPage() {
       <h1 className="text-2xl font-bold text-sage-900 mb-6">Management</h1>
 
       {/* Main Management Cards */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-2 gap-4">
         {managementItems.map((item) => (
           <Link key={item.href} href={item.href}>
             <Card className="shadow-card hover:shadow-elevated transition-shadow h-full">
@@ -74,25 +72,6 @@ export default function ManagementPage() {
                 </div>
                 <h3 className="font-semibold text-sage-900">{item.title}</h3>
                 <p className="text-xs text-sage-600 mt-1">{item.description}</p>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
-
-      {/* Secondary Links */}
-      <div className="space-y-2">
-        {secondaryItems.map((item) => (
-          <Link key={item.href} href={item.href}>
-            <Card className="shadow-card hover:shadow-elevated transition-shadow">
-              <CardContent className="p-4 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center">
-                  <item.icon className="h-5 w-5 text-sage-600" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-sage-900">{item.title}</h3>
-                  <p className="text-xs text-sage-500">{item.description}</p>
-                </div>
               </CardContent>
             </Card>
           </Link>
