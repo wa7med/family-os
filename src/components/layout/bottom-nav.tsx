@@ -9,8 +9,8 @@ const navItems = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/calendar", icon: Calendar, label: "Calendar" },
   { href: "#fab", icon: Plus, label: "Add", isFab: true },
-  { href: "/money", icon: DollarSign, label: "Money" },
-  { href: "/management", icon: LayoutDashboard, label: "Manage" },
+  { href: "/summary", icon: LayoutDashboard, label: "Summary" },
+  { href: "/management", icon: DollarSign, label: "Manage" },
 ];
 
 interface BottomNavProps {
