@@ -6,8 +6,7 @@ import {
   ClipboardList,
   Calendar,
   FileText,
-  Target,
-  Bell,
+  ListChecks,
   CreditCard,
   Users,
   Settings,
@@ -34,6 +33,13 @@ const managementItems = [
     href: "/contracts",
     icon: FileText,
     color: "bg-amber-500",
+  },
+  {
+    title: "In Progress",
+    description: "Track ongoing projects",
+    href: "/in-progress",
+    icon: ListChecks,
+    color: "bg-indigo-500",
   },
   {
     title: "Money",
