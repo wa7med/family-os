@@ -15,15 +15,15 @@ export const SEX_OPTIONS = ["male", "female"] as const;
 export type Sex = (typeof SEX_OPTIONS)[number];
 
 export const ROLE_AVATARS: Record<string, string> = {
-  husband: "H",
-  wife: "W",
-  son: "S",
-  daughter: "D",
-  relative: "R",
-  grandfather: "G",
-  grandmother: "G",
-  aunt: "A",
-  uncle: "U",
+  husband: "👨",
+  wife: "👩",
+  son: "👦",
+  daughter: "👧",
+  relative: "🧑",
+  grandfather: "👨",
+  grandmother: "👩",
+  aunt: "👩",
+  uncle: "👨",
 };
 
 export const FAMILY_COLORS: Record<string, string> = {
@@ -37,6 +37,11 @@ export const FAMILY_COLORS: Record<string, string> = {
   aunt: "#7B9E87",
   uncle: "#4A7B65",
   shared: "#5B8A72",
+};
+
+export const SEX_AVATARS: Record<Sex, { adult: string; child: string }> = {
+  male: { adult: "👨", child: "👦" },
+  female: { adult: "👩", child: "👧" },
 };
 
 export const ITEM_TYPES = ["appointment", "task", "expense", "contract"] as const;
