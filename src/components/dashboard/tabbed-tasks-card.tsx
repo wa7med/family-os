@@ -272,6 +272,20 @@ export function TabbedTasksCard({
         )}
       </div>
 
+      {/* Swipe Indicator */}
+      <div className="flex items-center justify-center mt-4 gap-1">
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            className={`h-1 rounded-full transition-all duration-300 ${
+              activeTab === tab.id
+                ? "w-6 bg-[#5B8A72]"
+                : "w-1.5 bg-sage-200"
+            }`}
+          />
+        ))}
+      </div>
+
       {/* Tab Icons Below Card — light background */}
       <div className="flex items-center justify-around mt-5 px-1">
         {tabs.map((tab) => (
