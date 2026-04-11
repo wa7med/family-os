@@ -6,7 +6,7 @@ import {
   ClipboardList,
   Calendar,
   FileText,
-  TrendingUp,
+  LoaderCircle,
   CreditCard,
   Users,
   Settings,
@@ -38,7 +38,7 @@ const managementItems = [
     title: "In Progress",
     description: "Track ongoing projects",
     href: "/in-progress",
-    icon: TrendingUp,
+    icon: LoaderCircle,
     color: "bg-indigo-500",
   },
   {
