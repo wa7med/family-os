@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, Users, Palette, Database, Info } from "lucide-react";
+import { ArrowLeft, Users, Palette, Database, Info, Bell } from "lucide-react";
 import Link from "next/link";
 
 const settingsItems = [
@@ -20,6 +20,13 @@ const settingsItems = [
     icon: Palette,
     href: "/settings/appearance",
     color: "text-purple-500",
+  },
+  {
+    label: "Notifications",
+    description: "Email and notification settings",
+    icon: Bell,
+    href: "/settings/notifications",
+    color: "text-sage-500",
   },
   {
     label: "Data & Storage",
