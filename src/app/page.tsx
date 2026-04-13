@@ -86,7 +86,7 @@ export default function DashboardPage() {
         </div>
         <div className="grid grid-cols-3 gap-3">
           <div className="text-center p-4 bg-card border border-border rounded-[18px] shadow-card">
-            <DollarSign className="h-5 w-5 text-[#C4965A] mx-auto mb-1" />
+            <DollarSign className="h-5 w-5 text-amber-500 mx-auto mb-1" />
             <p className="text-lg font-bold text-sage-900">
               {data?.finance?.monthlyExpenses?.toFixed(2) || "0.00"}
             </p>

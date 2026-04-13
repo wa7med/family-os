@@ -29,7 +29,7 @@ export default function ContractsPage() {
     const days = differenceInDays(parseISO(cancelBefore), new Date());
     if (days < 0) return "text-destructive";
     if (days <= 7) return "text-destructive";
-    if (days <= 30) return "text-[#C4965A]";
+    if (days <= 30) return "text-amber-500";
     return "text-sage-700/50";
   }
 
@@ -44,7 +44,7 @@ export default function ContractsPage() {
     if (!contract.endDate) return <Badge className="bg-sage-100 text-sage-700 border-sage-200">Active</Badge>;
     const daysToEnd = differenceInDays(parseISO(contract.endDate), new Date());
     if (daysToEnd < 0) return <Badge variant="destructive">Expired</Badge>;
-    if (daysToEnd <= 30) return <Badge className="bg-[#C4965A] text-white border-[#C4965A]">Expiring</Badge>;
+    if (daysToEnd <= 30) return <Badge className="bg-amber-500 text-white border-amber-500">Expiring</Badge>;
     return <Badge className="bg-sage-100 text-sage-700 border-sage-200">Active</Badge>;
   }
 

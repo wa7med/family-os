@@ -213,14 +213,14 @@ export function TabbedTasksCard({
                     )}
                     <div>
                       <span className="text-sm font-medium text-white">{entry.item.title}</span>
-                      <p className="text-xs text-[#C4965A]">
+                      <p className="text-xs text-amber-400">
                         Cancel before{" "}
                         {entry.contract.cancelBefore &&
                           format(new Date(entry.contract.cancelBefore), "dd MMM yyyy")}
                       </p>
                     </div>
                   </div>
-                  <Badge className="bg-[#C4965A]/20 text-[#C4965A] border-[#C4965A]/30">
+                  <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
                     {entry.contract.monthlyCost?.toFixed(2)}/mo
                   </Badge>
                 </Link>

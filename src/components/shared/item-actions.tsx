@@ -41,7 +41,7 @@ export function ItemActions({ itemId, title, isHabit, onAction }: ItemActionsPro
           e.stopPropagation();
           setOpen(true);
         }}
-        className="flex-shrink-0 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        className="flex-shrink-0 p-1 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
       >
         <MoreVertical className="h-4 w-4" />
       </button>
@@ -192,7 +192,7 @@ export function DailyFocusActions({ itemId, title, onAction }: DailyFocusActions
           e.stopPropagation();
           setOpen(true);
         }}
-        className="flex-shrink-0 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        className="flex-shrink-0 p-1 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors"
       >
         <MoreVertical className="h-4 w-4" />
       </button>

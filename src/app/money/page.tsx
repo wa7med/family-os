@@ -37,7 +37,7 @@ export default function MoneyPage() {
       <div className="grid grid-cols-2 gap-3">
         <Card className="shadow-card">
           <CardContent className="p-4 text-center">
-            <DollarSign className="h-6 w-6 mx-auto text-[#C4965A] mb-1" />
+            <DollarSign className="h-6 w-6 mx-auto text-amber-500 mb-1" />
             <p className="text-2xl font-bold text-sage-900">{totalAmount.toFixed(2)}</p>
             <p className="text-xs text-sage-700/50">Total Expenses</p>
           </CardContent>
