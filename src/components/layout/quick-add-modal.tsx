@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogClose } from "@/components/ui/dialog";
-import { Calendar, CheckSquare, DollarSign, FileText, Users } from "lucide-react";
+import { Calendar, CheckSquare, DollarSign, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
@@ -24,7 +24,7 @@ const quickAddOptions = [
     type: "expense",
     label: "Expense",
     icon: DollarSign,
-    color: "bg-[#C4965A]",
+    color: "bg-amber-500",
     href: "/money/new",
   },
   {
@@ -33,13 +33,6 @@ const quickAddOptions = [
     icon: FileText,
     color: "bg-sage-700",
     href: "/contracts/new",
-  },
-  {
-    type: "member",
-    label: "Member",
-    icon: Users,
-    color: "bg-sage-800",
-    href: "/family/new",
   },
 ];
 
