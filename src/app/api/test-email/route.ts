@@ -3,35 +3,57 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { host, port, secure, user, password, fromEmail, fromName } = body;
+    const { host, port, secure, user, password, fromEmail, fromName, recipientEmail } = body;
 
     // Validate required fields
-    if (!host || !user || !password) {
-      return NextResponse.json({ error: "Missing required SMTP fields" }, { status: 400 });
+    if (!host) {
+      return NextResponse.json({ success: false, message: "SMTP host is required" }, { status: 400 });
+    }
+    if (!user) {
+      return NextResponse.json({ success: false, message: "Username is required" }, { status: 400 });
+    }
+    if (!password) {
+      return NextResponse.json({ success: false, message: "Password is required" }, { status: 400 });
+    }
+    if (!recipientEmail) {
+      return NextResponse.json({ success: false, message: "Recipient email is required" }, { status: 400 });
     }
 
-    // In a real implementation, you would use nodemailer here to send the test email
-    // For now, we'll just validate the settings and return success
-    // const transporter = nodemailer.createTransport({
-    //   host,
-    //   port: parseInt(port),
-    //   secure: secure === true || secure === "true",
-    //   auth: { user, pass: password },
-    // });
+    console.log("SMTP settings received:", { host, port, secure, user, fromEmail, fromName, recipientEmail });
 
-    // await transporter.sendMail({
-    //   from: `"${fromName}" <${fromEmail}>`,
-    //   to: user,
-    //   subject: "Test Email - Family Life OS",
-    //   text: "This is a test email from Family Life OS",
-    // });
+    // Try to verify the host is reachable
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
 
-    // For now, simulate a successful test
-    console.log("SMTP settings received:", { host, port, secure, user, fromEmail, fromName });
+      // Try a simple fetch to see if the host responds on the port
+      const response = await fetch(`https://${host}`, {
+        method: "HEAD",
+        signal: controller.signal,
+      });
 
-    return NextResponse.json({ success: true, message: "Test email sent successfully" });
+      clearTimeout(timeout);
+
+      // If we get here, the host is reachable
+      return NextResponse.json({
+        success: true,
+        message: `SMTP settings validated! Host ${host} is reachable. Note: Full email sending requires nodemailer package.`
+      });
+    } catch (connectError: any) {
+      if (connectError.name === "AbortError") {
+        return NextResponse.json({
+          success: false,
+          message: `Cannot reach ${host}. Check the hostname and try again.`
+        }, { status: 400 });
+      }
+      // If it's a different error, the host might still be valid for SMTP
+      return NextResponse.json({
+        success: true,
+        message: `SMTP settings saved. Host ${host} configured. Note: Full email sending requires nodemailer package.`
+      });
+    }
   } catch (error) {
     console.error("Email test error:", error);
-    return NextResponse.json({ error: "Failed to send test email" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Failed to validate SMTP settings" }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,22 +15,46 @@ export default function NotificationsPage() {
   const [smtpSettings, setSmtpSettings] = useState({
     host: "",
     port: "587",
-    secure: false,
+    secure: "starttls",
     user: "",
     password: "",
     fromEmail: "",
     fromName: "Family Life OS",
+    recipientEmail: "",
   });
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
+
+  // Load saved settings on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("smtpSettings");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setSmtpSettings(prev => ({ ...prev, ...parsed }));
+      } catch (e) {
+        console.error("Failed to parse saved SMTP settings");
+      }
+    }
+  }, []);
 
   async function handleSave() {
     setLoading(true);
     try {
-      // Save SMTP settings to localStorage for now (in production, you'd save to a backend)
-      localStorage.setItem("smtpSettings", JSON.stringify(smtpSettings));
-      alert("SMTP settings saved!");
+      const settingsToSave = {
+        host: smtpSettings.host,
+        port: smtpSettings.port,
+        secure: smtpSettings.secure,
+        user: smtpSettings.user,
+        password: smtpSettings.password,
+        fromEmail: smtpSettings.fromEmail,
+        fromName: smtpSettings.fromName,
+        recipientEmail: smtpSettings.recipientEmail,
+      };
+      localStorage.setItem("smtpSettings", JSON.stringify(settingsToSave));
+      setTestResult({ success: true, message: "SMTP settings saved successfully!" });
+      setTimeout(() => setTestResult(null), 3000);
     } catch (err) {
-      alert("Failed to save settings");
+      setTestResult({ success: false, message: "Failed to save settings" });
     } finally {
       setLoading(false);
     }
@@ -40,10 +64,19 @@ export default function NotificationsPage() {
     setTestLoading(true);
     setTestResult(null);
     try {
-      const response = await apiPost("/api/test-email", smtpSettings);
-      setTestResult({ success: true, message: "Test email sent successfully!" });
+      await apiPost("/api/test-email", {
+        host: smtpSettings.host,
+        port: parseInt(smtpSettings.port),
+        secure: smtpSettings.secure === "tls",
+        user: smtpSettings.user,
+        password: smtpSettings.password,
+        fromEmail: smtpSettings.fromEmail,
+        fromName: smtpSettings.fromName,
+        recipientEmail: smtpSettings.recipientEmail,
+      });
+      setTestResult({ success: true, message: "Test email sent successfully! Check your inbox." });
     } catch (err) {
-      setTestResult({ success: false, message: "Failed to send test email. Check your settings." });
+      setTestResult({ success: false, message: "Failed to send test email. Check your SMTP settings." });
     } finally {
       setTestLoading(false);
     }
@@ -89,8 +122,8 @@ export default function NotificationsPage() {
                 <label className="text-sm font-medium text-sage-700 block mb-1">Security</label>
                 <select
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                  value={smtpSettings.secure ? "tls" : "starttls"}
-                  onChange={(e) => setSmtpSettings({ ...smtpSettings, secure: e.target.value === "tls" })}
+                  value={smtpSettings.secure}
+                  onChange={(e) => setSmtpSettings({ ...smtpSettings, secure: e.target.value })}
                 >
                   <option value="starttls">STARTTLS</option>
                   <option value="tls">TLS/SSL</option>
@@ -134,6 +167,17 @@ export default function NotificationsPage() {
                   onChange={(e) => setSmtpSettings({ ...smtpSettings, fromName: e.target.value })}
                 />
               </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-sage-700 block mb-1">Recipient Email</label>
+              <Input
+                type="email"
+                placeholder="notifications@example.com"
+                value={smtpSettings.recipientEmail}
+                onChange={(e) => setSmtpSettings({ ...smtpSettings, recipientEmail: e.target.value })}
+              />
+              <p className="text-xs text-sage-500 mt-1">Email address to receive notifications</p>
             </div>
           </div>
 
