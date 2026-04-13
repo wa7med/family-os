@@ -143,6 +143,7 @@ export async function POST(request: NextRequest) {
       noticePeriodDays: noticeDays,
       cancelBefore,
       autoRenew: body.autoRenew || false,
+      isOpenEnded: body.isOpenEnded || false,
       category: body.category || null,
       filePaths: body.filePaths ? JSON.stringify(body.filePaths) : null,
       accountDeductionDay: body.accountDeductionDay ? parseInt(body.accountDeductionDay) : null,
