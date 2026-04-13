@@ -23,11 +23,14 @@ RUN npm run build
 # ---- Prod Stage ----
 FROM node:20-alpine AS prod
 WORKDIR /app
-RUN apk add --no-cache python3 make g++
+RUN npm install better-sqlite3 tsx
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/public ./public
+# Copy source for runtime DB migrations (only migrations dir needed)
+COPY --from=build /app/src/lib/migrations ./src/lib/migrations
+COPY --from=build /app/src/db ./src/db
 RUN mkdir -p /app/data /app/uploads
 EXPOSE 3000
 ENV NODE_ENV=production
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npx tsx src/lib/migrate-runner.ts && node server.js"]

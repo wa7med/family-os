@@ -18,15 +18,25 @@ export async function POST() {
 
     // Check if cancelled_at column exists
     const tableInfo = sqlite.prepare("PRAGMA table_info(contracts)").all() as Array<{name: string}>;
-    const hasCancelledAt = tableInfo.some(col => col.name === "cancelled_at");
+    const columns = new Set(tableInfo.map(col => col.name));
 
-    if (!hasCancelledAt) {
-      // Add the missing column
+    let changes: string[] = [];
+
+    if (!columns.has("cancelled_at")) {
       sqlite.exec("ALTER TABLE contracts ADD COLUMN cancelled_at TEXT");
-      return NextResponse.json({ success: true, message: "Added cancelled_at column" });
+      changes.push("cancelled_at");
     }
 
-    return NextResponse.json({ success: true, message: "Column already exists, no changes needed" });
+    if (!columns.has("is_open_ended")) {
+      sqlite.exec("ALTER TABLE contracts ADD COLUMN is_open_ended INTEGER DEFAULT 0");
+      changes.push("is_open_ended");
+    }
+
+    if (changes.length > 0) {
+      return NextResponse.json({ success: true, message: `Added missing columns: ${changes.join(", ")}` });
+    }
+
+    return NextResponse.json({ success: true, message: "Database schema is up to date" });
   } catch (error) {
     console.error("Setup error:", error);
     return NextResponse.json({ error: "Setup failed", details: String(error) }, { status: 500 });

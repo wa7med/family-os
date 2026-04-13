@@ -145,6 +145,7 @@ export default function NewContractPage() {
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                   setDurationMonths(e.target.value ? parseInt(e.target.value) : null);
                 }}
+                disabled={noEndDate}
               />
             </div>
           </div>
