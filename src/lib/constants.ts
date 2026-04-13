@@ -121,8 +121,8 @@ export const DURATION_OPTIONS = [
 ] as const;
 
 export const PRIORITY_COLORS: Record<string, string> = {
-  low: "#8BA888",
-  medium: "#5B8A72",
-  high: "#4A7B65",
-  urgent: "#2F5E47",
+  low: "#6B7280",      // Gray - lowest urgency
+  medium: "#3B82F6",   // Blue - moderate
+  high: "#F97316",     // Orange - high urgency
+  urgent: "#EF4444",   // Red - critical/urgent
 };
