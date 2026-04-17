@@ -1,7 +1,9 @@
-const CACHE_NAME = "family-life-os-v1";
+const CACHE_NAME = "family-life-os-v3";
 const urlsToCache = [
   "/",
   "/manifest.json",
+  "/app-icon-192.png",
+  "/app-icon-512.png",
 ];
 
 // Install event - cache essential assets
